@@ -5,3 +5,4 @@ export { default as AppTouchableButton} from './core/TouchableButton';
 export { default as AppScreenHeader} from './templates/ScreenHeader';
 export { default as AppFormInputGroup} from './templates/FormInputGroup';
 export { default as AppProfileAvatar} from './templates/ProfileAvatar';
+export { default as AppErrorFeedback} from './templates/ErrorFeedback';

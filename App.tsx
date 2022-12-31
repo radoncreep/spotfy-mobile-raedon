@@ -6,10 +6,12 @@ import { NativeBaseProvider } from "native-base";
 import { NavigationContainer } from '@react-navigation/native';
 import { OnboardStackNavigator } from './navigation/Onboard';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
+import { onlineManager, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 
 SplashScreen.preventAutoHideAsync();
+
+const queryClient = new QueryClient();
 
 export default function App() {
   const [ ready, setReady ] = useState<boolean>(false);
@@ -41,7 +43,9 @@ export default function App() {
         <NativeBaseProvider>
           <View style={styles.container} onLayout={onLayoutRootView}>
             {/* if authenticated then navigate to bottom tab home screen else onboard */}
-            <OnboardStackNavigator />
+            <QueryClientProvider client={queryClient}>
+              <OnboardStackNavigator />
+            </QueryClientProvider>
             <StatusBar style="light" />
           </View>
         </NativeBaseProvider>
