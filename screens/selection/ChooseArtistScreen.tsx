@@ -1,145 +1,50 @@
-import { Center, Heading, Icon, Pressable, VStack } from "native-base";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+
+import { useEffect, useState } from "react";
 import { 
-    Button,
     Dimensions,
     FlatList, 
-    FlatListProps, 
     Keyboard,
-    ListRenderItemInfo, 
-    ScrollView, 
     StyleSheet, 
     Text, 
     TextInput,
     TouchableOpacity,
     TouchableWithoutFeedback, 
-    Vibration,
     View 
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Feather } from '@expo/vector-icons';
 import { useQuery } from "@tanstack/react-query";
-import * as Haptics from 'expo-haptics';
-
-import { ArtistData } from "../../types/artist.types";
-import { AppErrorFeedback, AppProfileAvatar, AppTouchableButton } from "../../components";
 import { LinearGradient } from "expo-linear-gradient";
+
+import { 
+    AppErrorFeedback, 
+    AppLoader, 
+    AppTouchableButton, 
+    ArtistAvatarListItem, 
+    GreatPicksModal
+} from "../../components";
 import { getManyArtists } from "../../api/ArtistsAPI";
-import { Ionicons } from '@expo/vector-icons';
 import { ViewSeperator } from "../../components/core/ViewSeperator";
-
-interface IRenderArtistAvatar {
-    index: number;
-    item: Record<string, any>;
-    selectedIndex: number[];
-    setSelectedIndex: Dispatch<SetStateAction<number[]>>;
-}
-
-const RenderArtistAvatar = ({ index, item, selectedIndex, setSelectedIndex }: IRenderArtistAvatar) => {
-
-    const handleSelectProfile = (item: Record<string, any>) => {
-        
-        Haptics.selectionAsync();
-
-        // if state is empty add new item
-        // if state not empty,
-        // - item exists in state: 
-        // - item doesnt exist in state
-        setSelectedIndex((prev) => {
-            if (prev.length > 0) {
-                if (prev.includes(index)) {
-                    const filter = prev.filter((currentIndex) => currentIndex !== index);
-                    return filter
-                }
-                return [...prev, index]
-            }
-            return [index]
-        })
-    }
-
-    const isSelected = (selectedIndex: number[], index: number): boolean => {
-        return selectedIndex.includes(index);
-    }
-    // console.log(selected)
-
-    return (
-        <TouchableWithoutFeedback
-            style={{
-                padding: 10,
-                backgroundColor: '#fff'
-            }}
-            onPress={handleSelectProfile}
-        >
-            <VStack 
-                space={2.5} 
-                style={{ 
-                    paddingVertical: 10, 
-                    alignItems: 'center',
-                    position: 'relative',
-                    // backgroundColor: 'red',
-                    maxHeight: 140
-                }}
-            >
-                <AppProfileAvatar imageSource={item.images[0].url}/>
-                <Text style={{ color: '#fff', fontWeight: '500'}}>{item['name']}</Text>
-
-                <>
-                    {isSelected(selectedIndex, index) && 
-                        <View 
-                            style={{ 
-                                backgroundColor: '#fff', 
-                                borderRadius: 40, 
-                                paddingHorizontal: 2, 
-                                paddingVertical: 1 ,
-                                position: 'absolute',
-                                zIndex: 1,
-                                right: 0,
-                                top: 20
-                            }}
-                        >
-                            <Ionicons name="checkmark" size={24} color="#000" />
-                        </View>
-                    }
-                </>
-            </VStack>
-        </TouchableWithoutFeedback>
-    )
-}
 
 
 const ChooseArtistScreen = () => {
-    const [selectedArtists, setSelectedArtists] = useState<Record<string, any>[]>([]);
-    const [selectedIndex, setSelectedIndex] = useState<number[]>([]);
-
+    const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
+    const [isDone, setIsDone]= useState<boolean>(false);
+ 
     const { data, error, isLoading, refetch } = useQuery({ 
         queryKey: ['artists'], 
         queryFn: getManyArtists,
-        enabled: false
+        enabled: true,
+        staleTime: Infinity,
+        cacheTime: Infinity
     });
 
-    console.log("SELECTED ", selectedIndex)
-
-    useEffect(() => {
-        if (!data) {
-            refetch();
-        }
-        console.log(selectedArtists)
-    }, [selectedArtists])
+    const getSelectedArtists = (selectedIndexes: number[], data: Record<string, any>[]) => {
+        return selectedIndexes.map((selectedIdx) => data[selectedIdx]);
+    }
 
     if (isLoading) {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text 
-                    style={{ 
-                        color: '#fff', // dynameic, depends on the theme 
-                        fontSize: 22,
-                        fontWeight: 'bold'
-                    }}
-                >
-                    Loading...
-                </Text>
-            </View>
-        )
+        return <AppLoader />;
     }
 
     if (error) {
@@ -181,11 +86,11 @@ const ChooseArtistScreen = () => {
                 <FlatList 
                     data={data}
                     renderItem={({ index, item }) => (
-                        <RenderArtistAvatar 
+                        <ArtistAvatarListItem 
                             item={item} 
                             index={index} 
-                            selectedIndex={selectedIndex} 
-                            setSelectedIndex={setSelectedIndex}
+                            selectedIndex={selectedIndexes} 
+                            setSelectedIndex={setSelectedIndexes}
                         />
                     )}
                     style={{
@@ -241,24 +146,30 @@ const ChooseArtistScreen = () => {
                         paddingTop: 20
                     }}
                 >
-                    <AppTouchableButton 
-                        text="Done"
-                        onPress={() => setSelectedArtists([])}
-                        textStyle={{
-                            color: "#000",
-                            fontSize: 14,
-                            fontWeight: 'bold'
-                        }}
-                        containerStyle={{
-                            backgroundColor: '#fff',
-                            paddingVertical: 16,
-                            width: 120,
-                            alignSelf: 'center',
-                            borderRadius: 40
-                        }}
-                    />
+                    {selectedIndexes.length >= 3 && (
+                        <AppTouchableButton 
+                            text="Done"
+                            onPress={() => setIsDone(true)}
+                            textStyle={{
+                                color: "#000",
+                                fontSize: 14,
+                                fontWeight: 'bold'
+                            }}
+                            containerStyle={{
+                                backgroundColor: '#fff',
+                                paddingVertical: 16,
+                                width: 120,
+                                alignSelf: 'center',
+                                borderRadius: 40,
+                            }}
+                        />
+                    )}
                 </LinearGradient>
             </View>
+
+            { isDone && 
+                <GreatPicksModal artistImages={getSelectedArtists(selectedIndexes, data)} />
+            }   
         </SafeAreaView>
     )
 }
