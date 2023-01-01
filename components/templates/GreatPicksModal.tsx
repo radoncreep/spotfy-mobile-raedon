@@ -22,7 +22,7 @@ const GreatPicksModal = ({ artistImages }: GreatPicksModalProps) => {
                     
                 }}
             >
-                <View style={{ flexDirection: 'row', marginBottom: 10 }}>
+                <View style={{ flexDirection: 'row', marginBottom: 10, justifyContent: 'center'}}>
                     {artistImages.map((artist, index) => {
                         return (
                             <View key={index} style={{ width: 40, height: 60,  }} >
