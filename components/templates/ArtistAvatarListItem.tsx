@@ -8,7 +8,7 @@ import * as Haptics from 'expo-haptics';
 import { Ionicons } from '@expo/vector-icons';
 import { VStack } from "native-base";
 
-import { AppProfileAvatar } from "..";
+import AppProfileAvatar from "./ProfileAvatar";
 
 
 interface IRenderArtistAvatar {

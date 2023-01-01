@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { 
     Dimensions,
     FlatList, 
+    Image,
     Keyboard,
     StyleSheet, 
     Text, 
@@ -19,8 +20,10 @@ import { LinearGradient } from "expo-linear-gradient";
 import { 
     AppErrorFeedback, 
     AppLoader, 
+    AppModal, 
     AppTouchableButton, 
-    ArtistAvatarListItem 
+    ArtistAvatarListItem, 
+    GreatPicksModal
 } from "../../components";
 import { getManyArtists } from "../../api/ArtistsAPI";
 import { ViewSeperator } from "../../components/core/ViewSeperator";
@@ -29,12 +32,17 @@ import { ViewSeperator } from "../../components/core/ViewSeperator";
 const ChooseArtistScreen = () => {
     const [selectedArtists, setSelectedArtists] = useState<Record<string, any>[]>([]);
     const [selectedIndex, setSelectedIndex] = useState<number[]>([]);
-
+    const [isDone, setIsDone]= useState<boolean>(false);
+ 
     const { data, error, isLoading, refetch } = useQuery({ 
         queryKey: ['artists'], 
         queryFn: getManyArtists,
         enabled: false
     });
+
+    const getSelectedArtists = (selectedIndexes: number[], data: Record<string, any>[]) => {
+        return selectedIndexes.map((selectedIdx) => data[selectedIdx]);
+    }
 
     useEffect(() => {
         if (!data) {
@@ -149,7 +157,7 @@ const ChooseArtistScreen = () => {
                 >
                     <AppTouchableButton 
                         text="Done"
-                        onPress={() => setSelectedArtists([])}
+                        onPress={() => setIsDone(true)}
                         textStyle={{
                             color: "#000",
                             fontSize: 14,
@@ -165,6 +173,10 @@ const ChooseArtistScreen = () => {
                     />
                 </LinearGradient>
             </View>
+
+            { isDone && 
+                <GreatPicksModal artistImages={getSelectedArtists(selectedIndex, data)} />
+            }   
         </SafeAreaView>
     )
 }
