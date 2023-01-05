@@ -10,8 +10,6 @@ export const getManyArtists = async (): Promise<any> => {
 
         const response: AxiosResponse = await api.get(`artists/many?ids=${ids}`);
 
-        // console.log(response)
-
         if (response.status !== 200) {
             throw new Error(response.data['error'])
         }

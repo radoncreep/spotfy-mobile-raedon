@@ -7,6 +7,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { OnboardStackNavigator } from './navigation/Onboard';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { onlineManager, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { appTheme } from './theme';
+import { AuthenticatedNavigation } from './navigation/Authenticated';
 
 
 SplashScreen.preventAutoHideAsync();
@@ -15,7 +17,7 @@ const queryClient = new QueryClient();
 
 export default function App() {
   const [ ready, setReady ] = useState<boolean>(false);
-  const [ isAuthenticated, setIsAuthenticated ] = useState<boolean>(false);
+  const [ isAuthenticated, setIsAuthenticated ] = useState<boolean>(true);
 
   useEffect(() => {
     async function load() {
@@ -40,11 +42,11 @@ export default function App() {
   return (
     <SafeAreaProvider>
       <NavigationContainer>
-        <NativeBaseProvider>
+        <NativeBaseProvider theme={appTheme}>
           <View style={styles.container} onLayout={onLayoutRootView}>
             {/* if authenticated then navigate to bottom tab home screen else onboard */}
             <QueryClientProvider client={queryClient}>
-              <OnboardStackNavigator />
+              { !isAuthenticated ? <OnboardStackNavigator /> : <AuthenticatedNavigation /> }
             </QueryClientProvider>
             <StatusBar style="light" />
           </View>
