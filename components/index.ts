@@ -1,6 +1,12 @@
 // CORE
 export { default as AppTouchableButton} from './core/TouchableButton';
 export { default as AppModal} from './core/AppModal';
+export { AppPill } from './core/AppPill';
+
+export { HomeScreenHeader } from './features/HomeScreenHeader';
+export { LibraryScreenHeader } from './features/LibraryScreenHeader';
+
+
 
 
 // TEMPLATES
