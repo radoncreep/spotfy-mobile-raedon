@@ -26,52 +26,92 @@ interface LikedArtistsProps extends ListRenderItemInfo<ArtistData> {
 
 const LikedArtists = ({ item, index, numColumns }: LikedArtistsProps) => {
     console.log({ numColumns })
+    const { width } = Dimensions.get("window");
+
     
     return (
-        <View
-            style={{
-                flexDirection: numColumns === 1 ? 'row' : 'column',
-                alignItems: 'center',
-                // backgroundColor: 'red',
-                flex: 1,
-                height: 170,
-                padding: 10
-            }}
-        >
-            {/* Image */}
-            <Image 
-                source={{ uri: item.images[0].url }}
-                style={{
-                    // flex: 1,
-                    width: numColumns === 1 ? 70 : '100%',
-                    height: numColumns === 1 ? 70 : '100%',
-                    borderRadius: numColumns === 1 ? 45 : 100,
-                    marginRight: 10
-                }}
-            />
-            {/* artist name */}
-            <View style={{ alignItems: 'center'}}>
-                <Text
-                    style={{
-                        color: '#fff',
-                        fontSize: 16,
-                        fontWeight: 'normal'
-                    }} 
-                >
-                    {item.artist}
-                </Text>
-                <Text
-                    style={{
-                        color: '#fff',
-                        fontSize: 14,
-                        fontWeight: 'normal',
-                        opacity: .6
-                    }} 
-                >
-                    Artist
-                </Text>
-            </View>
-        </View>
+        <>
+            {numColumns === 1 ? 
+                (
+                    <View
+                        style={{
+                            flexDirection: numColumns === 1 ? 'row' : 'column',
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Image 
+                            source={{ uri: item.images[0].url }}
+                            style={{
+                                width: 70,
+                                height: 70,
+                                borderRadius: 45,
+                            }}
+                        />
+
+                        <View style={{ marginLeft: 10}}>
+                            <Text
+                                style={{
+                                    color: '#fff',
+                                    fontSize: 14,
+                                    fontWeight: 'normal',
+                                }} 
+                            >
+                                {item.artist}
+                            </Text>
+                            <Text
+                                style={{
+                                    color: '#fff',
+                                    fontSize: 12,
+                                    fontWeight: 'normal',
+                                    opacity: .6,
+                                }} 
+                            >
+                                Artist
+                            </Text>
+                        </View>
+                    </View>
+                ) : 
+                (
+                    <View
+                        style={{
+                            alignItems: 'center',
+                        }}
+                    >
+                        <Image 
+                            source={{ uri: item.images[0].url }}
+                            style={{
+                                width: ((width / 2) - 20),
+                                height: ((width / 2) - 20),
+                                borderRadius: (((width / 2) - 20) / 2),
+                            }}
+                        />
+
+                        <View style={{ marginTop: 6 }}>
+                            <Text
+                                style={{
+                                    color: '#fff',
+                                    fontSize: 14,
+                                    fontWeight: 'normal',
+                                }} 
+                            >
+                                {item.artist}
+                            </Text>
+                            <Text
+                                style={{
+                                    color: '#fff',
+                                    fontSize: 12,
+                                    fontWeight: 'normal',
+                                    opacity: .6,
+                                    textAlign: 'center'
+                                }} 
+                            >
+                                Artist
+                            </Text>
+                        </View>
+                    </View>
+                ) 
+            }
+        </>
     )
 }
 
@@ -89,7 +129,6 @@ const SubHeader = ({
                 style={{ 
                         flexDirection: 'row', 
                         flex: .8,  
-                        // backgroundColor: 'green',  
                         width: 30, 
                         position: 'relative', 
                         alignItems: 'center'
@@ -123,17 +162,71 @@ const SubHeader = ({
     )
 }
 
+export const LibraryContentFooter = ({ numColumns }: { numColumns: 1 | 2 }) => {
+    return (
+        <View 
+            style={{ 
+                flexDirection: numColumns === 1 ? 'column' : 'row',
+                marginVertical: 10 
+            }}>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <View 
+                    style={{ 
+                        backgroundColor: '#282828',
+                        width: 70,
+                        height: 70,
+                        borderRadius: 45,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                >
+                    <Feather name="plus" size={46} color="#B3B3B3" /> 
+                </View>
+
+                <Text
+                    style={{
+                        color: '#fff',
+                        fontSize: 14,
+                        fontWeight: 'normal',
+                        marginLeft: 6
+                    }} 
+                > Add Artists</Text>
+            </View>
+
+            <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center' }}>
+                <View
+                    style={{
+                        backgroundColor: '#282828',
+                        width: 70,
+                        height: 70,
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                >
+                    <Feather name="plus" size={46} color="#B3B3B3" /> 
+                </View>
+
+                <Text
+                    style={{
+                        color: '#fff',
+                        fontSize: 14,
+                        fontWeight: 'normal',
+                        marginLeft: 6
+                    }} 
+                >Add podcasts and shows</Text>
+            </View>
+        </View>
+    )
+}
+
 
 export const YourLibraryScreen = () => {
     const [ numColumns, setNumColumns ] = useState<1 | 2>(1);
-    const { width, height }= Dimensions.get("window");
 
     let columnWrapperStyle: StyleProp<ViewStyle> = {
-        borderColor: 'green',
-        borderWidth: 1, 
-        flexDirection: 'row',
-        // height: '25%'
-    }
+        justifyContent: 'space-between',
+        flexDirection: 'row'
+    };
 
     const handleContentViewChange = () => {
         setNumColumns((prev) => prev === 1 ? 2 : 1);
@@ -164,11 +257,12 @@ export const YourLibraryScreen = () => {
                 ItemSeparatorComponent={() => <View style={{ height: 20}} />}
                 numColumns={numColumns}
                 key={numColumns}
+                // keyExtractor={(item) => item.albumId}
                 style={{
                     flex: 0.8
                 }}
                 {...(numColumns === 2 && { columnWrapperStyle  })}
-                
+                ListFooterComponent={<LibraryContentFooter numColumns={numColumns} />}
             />
         </SafeAreaView>
     )
