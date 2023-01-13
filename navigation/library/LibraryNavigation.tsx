@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { YourLibraryScreen } from "../../screens/library/YourLibrary";
+import { YourLibraryScreen } from "../../screens/library/YourLibraryScreen";
 
 
 type LibraryNavigationParamList = {
