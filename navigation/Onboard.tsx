@@ -38,7 +38,7 @@ export const OnboardStackNavigator = () => {
             <Stack.Screen 
                 options={{ 
                     headerShown: false, 
-                    presentation: 'modal',
+                    // presentation: 'modal',
                     contentStyle: {
                         backgroundColor: '#121212'
                     },

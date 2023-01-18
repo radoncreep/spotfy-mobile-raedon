@@ -17,7 +17,7 @@ const queryClient = new QueryClient();
 
 export default function App() {
   const [ ready, setReady ] = useState<boolean>(false);
-  const [ isAuthenticated, setIsAuthenticated ] = useState<boolean>(true);
+  const [ isAuthenticated, setIsAuthenticated ] = useState<boolean>(false);
 
   useEffect(() => {
     async function load() {

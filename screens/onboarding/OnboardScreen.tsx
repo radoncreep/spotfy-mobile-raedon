@@ -15,7 +15,7 @@ import { OnboardStackParamList } from "../../types/stackScreen.types";
 type Socials = "Google" | "Facebook" | "Apple";
 
 
-const renderOAuthButtons = () => {
+const RenderOAuthButtons = ({ navigation }: NativeStackScreenProps<OnboardStackParamList, 'OnboardScreen'>) => {
     const socials: Socials[] = ["Google", "Facebook", "Apple"];
 
     const renderLeftIcon = (social: Socials) => {
@@ -29,6 +29,10 @@ const renderOAuthButtons = () => {
         }
     }
 
+    const handlePress = () => {
+        navigation.navigate('ChooseArtistScreen');
+    }
+
     return (
         <>
             {socials.map((social: Socials) => {
@@ -40,7 +44,7 @@ const renderOAuthButtons = () => {
                             <AppTouchableButton 
                                 
                                 text={`Continue with ${social}`}
-                                onPress={() => console.log(social)}
+                                onPress={handlePress}
                                 containerStyle={{
                                     borderRadius: 20,
                                     flexDirection: 'row',
@@ -137,7 +141,7 @@ export const OnboardScreen = (
                                 }}
                             /> 
 
-                            {renderOAuthButtons()}
+                            <RenderOAuthButtons navigation={navigation} route={route} />
                         </VStack>
 
                         <View style={{ marginTop: 40 }}>
