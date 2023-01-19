@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { 
     Dimensions,
     FlatList, 
@@ -27,6 +27,7 @@ import { getManyArtists } from "../../api/ArtistsAPI";
 import { ViewSeperator } from "../../components/core/ViewSeperator";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { OnboardStackParamList } from "../../types/stackScreen.types";
+import { AuthContext } from "../../store/Auth.context";
 
 
 const ChooseArtistScreen = (
@@ -34,7 +35,7 @@ const ChooseArtistScreen = (
 ) => {
     const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
     const [isDone, setIsDone]= useState<boolean>(false);
-    const [fetchingMusic, setFetchingMusic] = useState(false);
+    const { dispatch } = useContext(AuthContext);
  
     const { data, error, isLoading, refetch } = useQuery({ 
         queryKey: ['artists'], 
@@ -96,7 +97,26 @@ const ChooseArtistScreen = (
     }
     
     const handleNavigation = () => {
-       // dispatch context to reload components from App.tsx and render Authenticated Navigation
+       let allRoutes = navigation.getState().routes;
+       let routeCount = allRoutes.length;
+       let previousRoute = allRoutes[routeCount - 2];
+       
+       if (previousRoute.name === "OnboardScreen") {
+           dispatch({
+               type: 'login',
+               payload: {
+                   username: 'Victor',
+                   email: 'victor@mail.com',
+                   password: 'password',
+                   dob: '20-01-2023',
+                   gender: 'male'
+               }
+           })
+       } else {
+        // dispatch with actual login state.
+        console.log("dispatched from auth navigation")
+       }
+
     }
 
     return (
@@ -169,7 +189,7 @@ const ChooseArtistScreen = (
                         paddingTop: 20
                     }}
                 >
-                    {selectedIndexes.length >= 1 && (
+                    {selectedIndexes.length >= 3 && (
                         <AppTouchableButton 
                             text="Done"
                             onPress={() => setIsDone(true)}

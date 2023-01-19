@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { useEffect} from 'react';
 import { useQueries, UseQueryResult } from "@tanstack/react-query";
 import { Text, View } from "react-native";
 
@@ -11,11 +11,10 @@ type FetchingMusicProps = {
     handleNavigation: () => void;
 }
 
-export const FetchingMusic = memo(({ queriedData }: FetchingMusicProps) => {
+export const FetchingMusic = ({ queriedData, handleNavigation }: FetchingMusicProps) => {
     const queries2 = useQueries({
         queries: queriedData.map((qd) => {
             const genres = qd.data?.genres!;
-            console.log({ genres })
             const tracksId = qd.data?.tracksId!;
             const artistId = qd.data?.artistId!;
 
@@ -26,7 +25,19 @@ export const FetchingMusic = memo(({ queriedData }: FetchingMusicProps) => {
         })
     })
 
-    if (queries2.every((elem) => elem.data !== undefined)) {
+    queries2.forEach((query) => console.log(query.isFetching))
+
+    const allSuccessful = queries2.every((elem) => elem.data !== undefined);
+
+    useEffect(() => {
+        let mounted = true;
+
+        if (mounted) handleNavigation();
+
+        return () => { mounted = false };
+    }, [allSuccessful]);
+
+    if (!allSuccessful) {
         return (
             <View
                 style={{ 
@@ -44,9 +55,5 @@ export const FetchingMusic = memo(({ queriedData }: FetchingMusicProps) => {
         )
     }
 
-    const handleNavigation = () => {
-
-    }
-
-    return null
-})
+    return null;
+}

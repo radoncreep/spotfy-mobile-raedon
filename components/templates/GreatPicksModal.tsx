@@ -1,7 +1,8 @@
 import { useQueries } from "@tanstack/react-query";
 import { Image, Text, View } from "react-native";
-import { getArtistTopTracks } from "../../api/ArtistsAPI";
+import { useEffect, useState } from "react";
 
+import { getArtistTopTracks } from "../../api/ArtistsAPI";
 import { IArtist } from "../../types/artist";
 import { RecommendationParams } from "../../types/shared";
 import { TracksResponse } from "../../types/tracks";
@@ -15,6 +16,7 @@ type GreatPicksModalProps = {
 }
 
 const GreatPicksModal = ({ pickedArtists, handleNavigation }: GreatPicksModalProps) => {
+    const [previewed, setPreviewed ] = useState(false);
 
     const queriedData = useQueries({
         queries: pickedArtists.map((artist) => {
@@ -33,7 +35,8 @@ const GreatPicksModal = ({ pickedArtists, handleNavigation }: GreatPicksModalPro
                         frequency: 0
                     }
                 },
-                cacheTime: 300000
+                cacheTime: 300000,
+                enabled: previewed
             }
         })
     });
@@ -41,13 +44,19 @@ const GreatPicksModal = ({ pickedArtists, handleNavigation }: GreatPicksModalPro
    
     let allSuccessful = queriedData.every((elem) => elem.data !== undefined);
 
+    useEffect(() => {
+        setTimeout(() => {
+            setPreviewed(true);
+        }, 5000)
+    }, []); 
+
     return (
         <AppModal 
             animationType="slide"
             transparent={false}
             isVisible={true}
         >
-                {allSuccessful ? 
+                {!allSuccessful ? 
                     (
                         <View 
                             style={{ 
@@ -80,7 +89,10 @@ const GreatPicksModal = ({ pickedArtists, handleNavigation }: GreatPicksModalPro
                             <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>Great Picks!</Text>
                         </View>
                     ) : (
-                        <FetchingMusic queriedData={queriedData} handleNavigation={handleNavigation}  />
+                        <FetchingMusic 
+                            queriedData={queriedData} 
+                            handleNavigation={handleNavigation}  
+                        />
                     )
                 }
         </AppModal>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ImageBackground, Platform, Pressable, Text, View, StyleSheet } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { AntDesign, MaterialIcons, FontAwesome } from '@expo/vector-icons';
@@ -10,13 +10,15 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { IMAGES } from "../../lib/constants";
 import { AppTouchableButton } from "../../components";
 import { OnboardStackParamList } from "../../types/stackScreen.types";
+import { AuthContext } from "../../store/Auth.context";
 
 
 type Socials = "Google" | "Facebook" | "Apple";
 
 
-const RenderOAuthButtons = ({ navigation }: NativeStackScreenProps<OnboardStackParamList, 'OnboardScreen'>) => {
+const RenderOAuthButtons = ({ navigation, route }: NativeStackScreenProps<OnboardStackParamList, 'OnboardScreen'>) => {
     const socials: Socials[] = ["Google", "Facebook", "Apple"];
+    const { dispatch } = useContext(AuthContext);
 
     const renderLeftIcon = (social: Socials) => {
         switch (social) {
@@ -30,6 +32,16 @@ const RenderOAuthButtons = ({ navigation }: NativeStackScreenProps<OnboardStackP
     }
 
     const handlePress = () => {
+        // dispatch({
+        //     type: 'login',
+        //     payload: {
+        //         username: 'Victor',
+        //         email: 'victor@mail.com',
+        //         password: 'password',
+        //         dob: '20-01-2023',
+        //         gender: 'male'
+        //     }
+        // })
         navigation.navigate('ChooseArtistScreen');
     }
 
