@@ -5,15 +5,17 @@ import * as SplashScreen from 'expo-splash-screen';
 import { NativeBaseProvider } from "native-base";
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { onlineManager, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { appTheme } from './theme';
 import { AuthContextProvider } from './store/Auth.context';
 import { Root } from './navigation/Root';
+import { queryClient, QueryClientProvider } from './config/queryClient';
 
+
+if(__DEV__) {
+  import('./config/reactotron.config').then(() => console.log('Reactotron Configured'));
+}
 
 SplashScreen.preventAutoHideAsync();
-
-const queryClient = new QueryClient();
 
 export default function App() {
   const [ ready, setReady ] = useState<boolean>(false);

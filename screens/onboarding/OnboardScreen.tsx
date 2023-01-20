@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { AntDesign, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { Heading, VStack } from "native-base";
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-
+import Reactotron from "reactotron-react-native";
 
 
 import { IMAGES } from "../../lib/constants";
@@ -32,6 +32,7 @@ const RenderOAuthButtons = ({ navigation, route }: NativeStackScreenProps<Onboar
     }
 
     const handlePress = () => {
+        Reactotron.log!("hi there")
         // dispatch({
         //     type: 'login',
         //     payload: {
