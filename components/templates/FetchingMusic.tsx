@@ -2,7 +2,7 @@ import { useEffect} from 'react';
 import { useQueries, UseQueryResult } from "@tanstack/react-query";
 import { Text, View } from "react-native";
 
-import { getRecommendations } from "../../api/BrowseAPI";
+import { getRecommendations } from "../../api/browse/BrowseAPI";
 import { RecommendationParams } from "../../types/shared";
 
 
