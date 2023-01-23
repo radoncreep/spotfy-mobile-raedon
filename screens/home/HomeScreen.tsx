@@ -1,17 +1,20 @@
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { useQuery } from "@tanstack/react-query";
-import { HStack, VStack } from "native-base";
-import { FlatList, Image, ListRenderItemInfo, ScrollView, SectionList, StyleSheet, Text, View } from "react-native";
+import { VStack } from "native-base";
+import { FlatList, Image, ListRenderItemInfo, ScrollView, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Artist, NewReleaseAlbums, NewReleaseItem } from "../../api/browse/browse.types";
-import { getNewReleases } from "../../api/browse/BrowseAPI";
 
+import { Artist, NewReleaseItem } from "../../api/browse/browse.types";
+import { getNewReleases } from "../../api/browse/BrowseAPI";
 import { HomeScreenHeader } from "../../components";
 import { Markets } from "../../types/markets";
+import { HomeNavigationParamList } from "../../types/stackScreen.types";
 
 
-
-const FlatListItem = ({ index, item }: ListRenderItemInfo<NewReleaseItem>) => {
-    // console.log('item')
+type FlatListItemProp = ListRenderItemInfo<NewReleaseItem> & 
+    NativeStackScreenProps<HomeNavigationParamList, 'HomeIndex'>;
+ 
+const FlatListItem = ({ index, item, navigation }: FlatListItemProp) => {
     let imageProp = {
         url: item.images[1].url,
         width: item.images[2].width,
@@ -28,18 +31,27 @@ const FlatListItem = ({ index, item }: ListRenderItemInfo<NewReleaseItem>) => {
         return str.charAt(0).toUpperCase() + str.slice(1)
     }
 
+    const onPressCard = () => {
+        navigation.navigate('Details', { ...item });
+    }
+
     return (
         <VStack space={2} maxWidth={140}>
-            <Image 
-                source={{ uri: imageProp.url }}
-                style={{
-                    width: 140,
-                    height: 150
-                }}
-            />
+            <TouchableOpacity 
+                activeOpacity={0.5}
+                onPress={onPressCard}
+            >
+                <Image 
+                    source={{ uri: imageProp.url }}
+                    style={{
+                        width: 140,
+                        height: 150
+                    }}
+                />
+            </TouchableOpacity>
 
             <View style={{ }}>
-                <Text style={{ fontSize: 14, fontWeight: '500', color: '#fff' }}>
+                <Text style={{ fontSize: 12, fontWeight: '500', color: '#fff' }}>
                     {item.name}
                 </Text>
                 
@@ -61,7 +73,7 @@ const FlatListItem = ({ index, item }: ListRenderItemInfo<NewReleaseItem>) => {
     )
 }
 
-export const HomeScreen = () => {
+export const HomeScreen = ({ navigation, route }: NativeStackScreenProps<HomeNavigationParamList, 'HomeIndex'>) => {
 
     // writing a test query to reuse 
     // get location of user -dummy in this case from cache fr if not use default NG
@@ -87,27 +99,18 @@ export const HomeScreen = () => {
 
                     <View style={{ marginVertical: 20 }}>
                         <View>
-                            <Text style={{ color: '#fff', fontSize: 26, fontWeight: '600'}}>Popular New Releases</Text>
+                            <Text style={{ color: '#fff', fontSize: 26, fontWeight: '600'}}>
+                                Popular new releases
+                            </Text>
                         </View>
                         <FlatList 
-                            // ListHeaderComponent={() => (
-                            //     <View>
-                            //     <Text style={{ color: '#fff', fontSize: 20}}>Popular New Releases</Text>
-                            // </View>
-                            // )}
                             data={data}
-                            renderItem={((props) => <FlatListItem {...props} />)}
+                            renderItem={((props) => <FlatListItem {...props} navigation={navigation} route={route} />)}
                             horizontal={true}
                             ItemSeparatorComponent={() => <View style={{ width: 14}} /> }
-                            style={{
-                                // flexDirection: 'column'
-                                flexWrap: 'nowrap'
-                            }}
                             showsHorizontalScrollIndicator={false}
                             contentContainerStyle={{
-                                marginVertical: 20,
-                                // backgroundColor: 'red',
-                                alignItems: 'flex-start'
+                                marginVertical: 20
                             }}
                             keyExtractor={({ id }) => id}
                         />
