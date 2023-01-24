@@ -16,7 +16,8 @@ export const HomeNavigation = () => {
                 headerShown: false,
                 contentStyle: {
                     backgroundColor: '#121212'
-                }
+                },
+                // presentation: ''
             }}
         >
             <Stack.Screen name="HomeIndex" component={HomeScreen} />

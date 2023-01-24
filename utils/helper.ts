@@ -10,3 +10,7 @@ export const catchAsyncError = (fn: () => Promise<any>, args: any) => {
 export const joinArrayOfStrings = <T extends any[]>(param: T) => {
     return param.join(", ")
 }
+
+export const firstCharToUpper = (str: string) => {
+    return str.charAt(0).toUpperCase() + str.slice(1)
+}
