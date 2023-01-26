@@ -17,3 +17,4 @@ export { default as AppErrorFeedback} from './templates/ErrorFeedback';
 export { default as ArtistAvatarListItem} from './templates/ArtistAvatarListItem';
 export { default as AppLoader} from './templates/Loader';
 export { default as GreatPicksModal} from './templates/GreatPicksModal';
+export { AlbumPlaylist} from './templates/AlbumPlaylist';

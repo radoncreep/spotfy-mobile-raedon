@@ -1,7 +1,7 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Image, ImageBackground, StyleSheet, Text, View, ScrollView, Pressable } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather, Ionicons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 
@@ -12,22 +12,42 @@ import { firstCharToUpper } from "../../utils/helper";
 import { HStack, VStack } from "native-base";
 import { useQuery } from "@tanstack/react-query";
 import { getArtist } from "../../api/ArtistsAPI";
+import { getAlbum } from "../../api/album/albumAPI";
+import { AlbumPlaylist } from "../../components";
+
 
 
 export const DetailsScreen = ({ navigation, route }: 
     NativeStackScreenProps<HomeNavigationParamList, 'Details'>
 ) => {
-    const { name, artists, images, release_date, release_date_precision, album_type } = route.params;
+    const insets = useSafeAreaInsets();
+    const [ isFavorite, setIsFavorite ] = useState(false);
+
+    const { 
+        name, 
+        artists, 
+        images, 
+        release_date, 
+        release_date_precision,
+        album_type,
+        id: albumId
+    } = route.params;
     const contentImage = images[0];
     const release_year = release_date.split('-')[0];
     const mainArtist = artists[0];
 
-    const insets = useSafeAreaInsets();
-    const [ isFavorite, setIsFavorite ] = useState(false);
-
-    const { data, isLoading, error} = useQuery({
+    const { data: artistImage, isLoading, error} = useQuery({
         queryKey: [`${mainArtist.name}-image`],
         queryFn: () => getArtist(mainArtist.id),
+        select: (data) => {
+            return data.images[0].url;
+        },
+        cacheTime: 60000
+    })
+
+    const { data: album, isLoading: isLoadingAlbum, error: albumFetchError} = useQuery({
+        queryKey: ['album', { albumId }],
+        queryFn: () => getAlbum(albumId),
         cacheTime: 60000
     })
 
@@ -73,7 +93,12 @@ export const DetailsScreen = ({ navigation, route }:
                             <Text style={{ fontSize: 24, fontWeight: "bold", color: '#fff'}}>{name}</Text>
                             
                             <HStack alignItems='center' style={{ alignSelf: 'flex-start'}} space={2}>
-                                { data && <Image source={{ uri: data?.images[0].url }}  style={{ width: 20, height: 20, borderRadius: 30 }}/> }
+                                { artistImage && 
+                                    <Image 
+                                        source={{ uri: artistImage }} 
+                                        style={{ width: 20, height: 20, borderRadius: 30 }}
+                                    /> 
+                                }
 
                                 <Text style={{ fontSize: 12, fontWeight: "bold", color: '#fff'}}>{mainArtist.name}</Text>
                             </HStack>
@@ -89,6 +114,7 @@ export const DetailsScreen = ({ navigation, route }:
                             </Text>
                         </VStack>
 
+                        {/* Tracks controls */}
                         <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'space-between' }}>
                             <HStack space="1.5">
                                 <Pressable onPress={() => setIsFavorite((prev) => !prev)}>
@@ -113,11 +139,17 @@ export const DetailsScreen = ({ navigation, route }:
                             </HStack>
 
                             <HStack alignItems="center" space={2}>
-                                <Ionicons name="ios-shuffle-outline" size={24} color="#57B65F" />
+                                <Ionicons name="ios-shuffle-outline" size={30} color="#57B65F" />
 
-                                <Ionicons name="play-circle-sharp" size={44} color="#57B65F" />
+                                <Ionicons name="play-circle-sharp" size={48} color="#57B65F" />
                             </HStack>
                         </View>
+
+                        {/* Tracks list */}
+                        {album && (
+                            <AlbumPlaylist tracks={album.tracks.items} />
+                        )}
+
                     </View>
                 </ScrollView>
             </LinearGradient>

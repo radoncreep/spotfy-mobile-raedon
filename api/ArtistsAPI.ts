@@ -15,7 +15,6 @@ export const getArtist = async (id: string): Promise<IArtist> => {
         if (response.status !== 200) {
             throw new Error(response.data['error'])
         }
-        console.log(response.data)
         return response.data;
     } catch (error) {
         if (axios.isAxiosError(error) && error.response) {
