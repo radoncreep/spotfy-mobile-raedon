@@ -57,102 +57,103 @@ export const DetailsScreen = ({ navigation, route }:
             edges={['right', 'bottom', 'left']} 
         >
            
-            <LinearGradient
-                colors={['orange', '#121212']}
-                locations={[0, 0.55]}
-                style={[styles.gradient_container, { paddingTop: insets.top + 20 }]}
-            >
-                <ScrollView>
-                    <View style={styles.imageContainer}>
-                        <Feather name="chevron-left" size={30} color="#fff" style={{ flex: 0.1, top: -5 }} />
+            <ScrollView>
+                <LinearGradient
+                    colors={['orange', '#121212']}
+                    locations={[0, 0.55]}
+                    style={[styles.gradient_container, { paddingTop: insets.top + 20 }]}
+                >
+                        <View style={styles.imageContainer}>
+                            <Feather name="chevron-left" size={30} color="#fff" style={{ flex: 0.1, top: -5 }} />
 
-                        {/* USE FALLBACK IMAGE IF IMAGE HASNT LOADED */}
-                        <View 
-                            style={{ 
-                                alignItems: 'center', 
-                                flex: 0.8, 
-                                shadowColor: '#121212', 
-                                shadowOpacity: 1, 
-                                shadowOffset: { width: 0, height: 8}, 
-                                shadowRadius: 10,
-                                marginBottom: 20
-                            }}
-                        >
-                            <Image 
-                                source={{ uri: contentImage.url }} 
-                                style={{
-                                    width: 260,
-                                    height: 260,
+                            {/* USE FALLBACK IMAGE IF IMAGE HASNT LOADED */}
+                            <View 
+                                style={{ 
+                                    alignItems: 'center', 
+                                    flex: 0.8, 
+                                    shadowColor: '#121212', 
+                                    shadowOpacity: 1, 
+                                    shadowOffset: { width: 0, height: 8}, 
+                                    shadowRadius: 10,
+                                    marginBottom: 20
                                 }}
-                            />
+                            >
+                                <Image 
+                                    source={{ uri: contentImage.url }} 
+                                    style={{
+                                        width: 260,
+                                        height: 260,
+                                    }}
+                                />
+                            </View>
                         </View>
-                    </View>
-                    
-                    <View style={{ paddingHorizontal: 10}}>
-                        <VStack  space={1.5}>
-                            <Text style={{ fontSize: 24, fontWeight: "bold", color: '#fff'}}>{name}</Text>
-                            
-                            <HStack alignItems='center' style={{ alignSelf: 'flex-start'}} space={2}>
-                                { artistImage && 
-                                    <Image 
-                                        source={{ uri: artistImage }} 
-                                        style={{ width: 20, height: 20, borderRadius: 30 }}
-                                    /> 
-                                }
+                        
+                        <View style={{ paddingHorizontal: 10}}>
+                            <VStack  space={1.5}>
+                                <Text style={{ fontSize: 24, fontWeight: "bold", color: '#fff'}}>{name}</Text>
+                                
+                                <HStack alignItems='center' style={{ alignSelf: 'flex-start'}} space={2}>
+                                    { artistImage && 
+                                        <Image 
+                                            source={{ uri: artistImage }} 
+                                            style={{ width: 20, height: 20, borderRadius: 30 }}
+                                        /> 
+                                    }
 
-                                <Text style={{ fontSize: 12, fontWeight: "bold", color: '#fff'}}>{mainArtist.name}</Text>
-                            </HStack>
+                                    <Text style={{ fontSize: 12, fontWeight: "bold", color: '#fff'}}>{mainArtist.name}</Text>
+                                </HStack>
 
-                            <Text style={{ fontSize: 12, fontWeight: '500', color: '#fff', opacity: .6 }}>
-                                {firstCharToUpper(album_type)}{' '}
+                                <Text style={{ fontSize: 12, fontWeight: '500', color: '#fff', opacity: .6 }}>
+                                    {firstCharToUpper(album_type)}{' '}
 
-                                <View >
-                                    <Text style={{ color: '#fff', opacity: .6, fontSize: 5 }}>{'\u2B24'}</Text>
-                                </View>
+                                    <View >
+                                        <Text style={{ color: '#fff', opacity: .6, fontSize: 5 }}>{'\u2B24'}</Text>
+                                    </View>
 
-                                <Text>{' '}{release_year}</Text>
-                            </Text>
-                        </VStack>
+                                    <Text>{' '}{release_year}</Text>
+                                </Text>
+                            </VStack>
 
-                        {/* Tracks controls */}
-                        <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'space-between' }}>
-                            <HStack space="1.5">
-                                <Pressable onPress={() => setIsFavorite((prev) => !prev)}>
-                                    {!isFavorite ? (
-                                        <MaterialIcons 
-                                            name="favorite-outline" 
-                                            size={24} 
-                                            style={styles.inactiveIcon} 
-                                        />
-                                    ): (
-                                        <MaterialIcons 
-                                            name="favorite" 
-                                            size={24} 
-                                            color='#57B65F'
-                                        />
-                                    )}
-                                </Pressable>
+                            {/* Tracks controls */}
+                            <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'space-between' }}>
+                                <HStack space="1.5">
+                                    <Pressable onPress={() => setIsFavorite((prev) => !prev)}>
+                                        {!isFavorite ? (
+                                            <MaterialIcons 
+                                                name="favorite-outline" 
+                                                size={24} 
+                                                style={styles.inactiveIcon} 
+                                            />
+                                        ): (
+                                            <MaterialIcons 
+                                                name="favorite" 
+                                                size={24} 
+                                                color='#57B65F'
+                                            />
+                                        )}
+                                    </Pressable>
 
-                                <Pressable onPress={() => console.log("pressed options")}>
-                                    <SimpleLineIcons name="options" size={22} style={styles.inactiveIcon} />
-                                </Pressable>
-                            </HStack>
+                                    <Pressable onPress={() => console.log("pressed options")}>
+                                        <SimpleLineIcons name="options" size={22} style={styles.inactiveIcon} />
+                                    </Pressable>
+                                </HStack>
 
-                            <HStack alignItems="center" space={2}>
-                                <Ionicons name="ios-shuffle-outline" size={30} color="#57B65F" />
+                                <HStack alignItems="center" space={2}>
+                                    <Ionicons name="ios-shuffle-outline" size={30} color="#57B65F" />
 
-                                <Ionicons name="play-circle-sharp" size={48} color="#57B65F" />
-                            </HStack>
+                                    <Ionicons name="play-circle-sharp" size={48} color="#57B65F" />
+                                </HStack>
+                            </View>
+
+                            {/* Tracks list */}
+                            {album && (
+                                <AlbumPlaylist tracks={album.tracks.items} />
+                            )}
                         </View>
-
-                        {/* Tracks list */}
-                        {album && (
-                            <AlbumPlaylist tracks={album.tracks.items} />
-                        )}
-
-                    </View>
-                </ScrollView>
-            </LinearGradient>
+                </LinearGradient>
+                
+               
+            </ScrollView>
         </SafeAreaView>
     )
 }

@@ -9,6 +9,7 @@ import { getNewReleases } from "../../api/browse/BrowseAPI";
 import { HomeScreenHeader } from "../../components";
 import { Markets } from "../../types/markets";
 import { HomeNavigationParamList } from "../../types/stackScreen.types";
+import { getArtistNameText } from "../../utils/helper";
 
 
 type FlatListItemProp = ListRenderItemInfo<NewReleaseItem> & 
@@ -21,11 +22,6 @@ const FlatListItem = ({ index, item, navigation }: FlatListItemProp) => {
         height: item.images[2].height
     }
 
-    const getArtistsString = (artists: Artist[]) => {
-        let artistNames = artists.map((artist) => artist.name);
-
-        return artistNames.join(", ");
-    }
 
     const firstCharToUpper = (str: string) => {
         return str.charAt(0).toUpperCase() + str.slice(1)
@@ -64,7 +60,7 @@ const FlatListItem = ({ index, item, navigation }: FlatListItemProp) => {
                         </View>
 
                         <Text style={{ fontSize: 12, fontWeight: '500', color: 'grey' }} numberOfLines={3} >
-                            {' '}{getArtistsString(item.artists)}
+                            {' '}{getArtistNameText(item.artists)}
                         </Text>
                     </Text>
                 </View>
