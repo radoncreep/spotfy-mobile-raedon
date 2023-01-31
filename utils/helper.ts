@@ -21,3 +21,7 @@ export const getArtistNameText = (artists: Artist[]) => {
 
     return artistNames.join(", ");
 }
+
+export const getMonthName = (monthNumber: string): string => {
+    return new Date(`${+monthNumber + 1}`).toLocaleDateString(undefined, { month: 'long' });
+}

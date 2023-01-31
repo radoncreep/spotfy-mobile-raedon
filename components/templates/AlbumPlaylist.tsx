@@ -24,7 +24,7 @@ const AlbumPlaylistItem = (item: AlbumPlaylistItemProps) => {
                 <HStack alignItems='center'>
                     {item.explicit && <MaterialIcons name="explicit" size={20} style={{ color: '#fff', opacity: .5 }}/>}
                     <Text style={{ color: '#fff', fontSize: 12, fontWeight: '500', opacity: .5}}>
-                        {' '}{getArtistNameText(item.artists)}
+                        {getArtistNameText(item.artists)}
                     </Text>
                 </HStack>
             </VStack>
@@ -52,7 +52,8 @@ const styles = StyleSheet.create({
     listItemContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        paddingVertical: 10
     },
     inactiveIcon: {
         color: '#fff',
