@@ -64,7 +64,12 @@ export const DetailsScreen = ({ navigation, route }:
                     style={[styles.gradient_container, { paddingTop: insets.top + 20 }]}
                 >
                     <View style={styles.imageContainer}>
-                        <Feather name="chevron-left" size={30} color="#fff" style={{ flex: 0.1, top: -5 }} />
+                        <Pressable 
+                            onPress={() => navigation.goBack() }
+                            style={{ flex: 0.1, top: -5 }}
+                        >
+                            <Feather name="chevron-left" size={30} color="#fff"  />
+                        </Pressable>
 
                         {/* USE FALLBACK IMAGE IF IMAGE HASNT LOADED */}
                         <View 
