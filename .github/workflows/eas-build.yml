@@ -21,6 +21,6 @@ jobs:
           eas-version: latest
           token: ${{ secrets.SP_MOBILE_PAT }}
       - name: Install dependencies
-        run: yarn ci
+        run: yarn install --frozen-lockfile
       - name: Build on EAS
         run: eas build --platform android --non-interactive
