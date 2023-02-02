@@ -1,4 +1,5 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
+import { NewReleaseItem } from '../api/browse/browse.types';
 
 export type RootSignupStackParamList = {
     Username: {email: string, password: string, dob: string, gender: string } | undefined;
@@ -11,10 +12,15 @@ export type RootSignupStackParamList = {
 export type OnboardStackParamList = {
     OnboardScreen: undefined;
     SignupStack:  NavigatorScreenParams<RootSignupStackParamList>;
-    Username: {email: string, password: string, dob: string, gender: string } | undefined;
-    Password: {email: string} | undefined;
-    DateOfBirth: {email: string, password: string } | undefined;
-    Gender: {email: string, password: string, dob: string }  | undefined;
+    Username: {email: string, password: string, dob: string, gender: string };
+    Password: {email: string};
+    DateOfBirth: {email: string, password: string };
+    Gender: {email: string, password: string, dob: string };
     Email: undefined;
-    ChooseArtistScreen: undefined;
+    ChooseArtistScreen: {email: string, password: string, dob: string, gender: string, username: string } | undefined;
+}
+
+export type HomeNavigationParamList = {
+    HomeIndex: undefined;
+    Details: NewReleaseItem;
 }

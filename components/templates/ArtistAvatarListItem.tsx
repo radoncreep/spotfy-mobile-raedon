@@ -19,9 +19,8 @@ interface IRenderArtistAvatar {
 }
 
 const ArtistAvatarListItem = ({ index, item, selectedIndex, setSelectedIndex }: IRenderArtistAvatar) => {
-
-    const handleSelectProfile = (item: Record<string, any>) => {
-        
+    
+    const handleSelectProfile = (item: Record<string, any>) => {        
         Haptics.selectionAsync();
 
         setSelectedIndex((prev) => {
@@ -46,7 +45,7 @@ const ArtistAvatarListItem = ({ index, item, selectedIndex, setSelectedIndex }: 
                 padding: 10,
                 backgroundColor: '#fff'
             }}
-            onPress={handleSelectProfile}
+            onPress={() => handleSelectProfile(item)}
         >
             <VStack 
                 space={2.5} 

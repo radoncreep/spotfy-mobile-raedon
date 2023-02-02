@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { 
     Dimensions,
     FlatList, 
@@ -25,26 +25,41 @@ import {
 } from "../../components";
 import { getManyArtists } from "../../api/ArtistsAPI";
 import { ViewSeperator } from "../../components/core/ViewSeperator";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { OnboardStackParamList } from "../../types/stackScreen.types";
+import { AuthContext } from "../../store/Auth.context";
 
 
-const ChooseArtistScreen = () => {
+const ChooseArtistScreen = (
+    { navigation, route }: NativeStackScreenProps<OnboardStackParamList, 'ChooseArtistScreen'>
+) => {
     const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
     const [isDone, setIsDone]= useState<boolean>(false);
+    const { dispatch } = useContext(AuthContext);
  
     const { data, error, isLoading, refetch } = useQuery({ 
         queryKey: ['artists'], 
         queryFn: getManyArtists,
         enabled: true,
         staleTime: Infinity,
-        cacheTime: Infinity
-    });
+        cacheTime: Infinity,
+        select(data) {
+            let res = data.filter((d) => d.genres.length > 0);
 
-    const getSelectedArtists = (selectedIndexes: number[], data: Record<string, any>[]) => {
-        return selectedIndexes.map((selectedIdx) => data[selectedIdx]);
-    }
+            return res;
+        },
+    });
 
     if (isLoading) {
         return <AppLoader />;
+    }
+
+    if (!data) {
+        return (
+            <View style={{ justifyContent: 'center', alignItems: 'center'}}>
+                <Text style={{ color: '#fff'}}>No data.</Text>
+            </View>
+        )
     }
 
     if (error) {
@@ -65,7 +80,7 @@ const ChooseArtistScreen = () => {
                 >
                     <Text 
                         style={{ 
-                            color: '#000', // dynameic, depends on the theme 
+                            color: '#000', // dynamic, depends on the theme 
                             fontSize: 22,
                             fontWeight: 'bold'
                         }}
@@ -76,7 +91,33 @@ const ChooseArtistScreen = () => {
             </View>
         )
     }
+
+    const getSelectedArtists = (selectedIndexes: number[], artists: typeof data) => {
+        return selectedIndexes.map((selectedIdx) => artists[selectedIdx]);
+    }
     
+    const handleNavigation = () => {
+       let allRoutes = navigation.getState().routes;
+       let routeCount = allRoutes.length;
+       let previousRoute = allRoutes[routeCount - 2];
+       
+       if (previousRoute.name === "OnboardScreen") {
+           dispatch({
+               type: 'login',
+               payload: {
+                   username: 'Victor',
+                   email: 'victor@mail.com',
+                   password: 'password',
+                   dob: '20-01-2023',
+                   gender: 'male'
+               }
+           })
+       } else {
+        // dispatch with actual login state.
+        console.log("dispatched from auth navigation")
+       }
+
+    }
 
     return (
         <SafeAreaView style={styles.container} edges={["top"]}>
@@ -85,14 +126,16 @@ const ChooseArtistScreen = () => {
 
                 <FlatList 
                     data={data}
-                    renderItem={({ index, item }) => (
-                        <ArtistAvatarListItem 
-                            item={item} 
-                            index={index} 
-                            selectedIndex={selectedIndexes} 
-                            setSelectedIndex={setSelectedIndexes}
-                        />
-                    )}
+                    renderItem={({ index, item }) => 
+                        (
+                            <ArtistAvatarListItem 
+                                item={item} 
+                                index={index} 
+                                selectedIndex={selectedIndexes} 
+                                setSelectedIndex={setSelectedIndexes}
+                            />
+                        )
+                    }
                     style={{
                         marginTop: 20
                     }}
@@ -168,7 +211,10 @@ const ChooseArtistScreen = () => {
             </View>
 
             { isDone && 
-                <GreatPicksModal artistImages={getSelectedArtists(selectedIndexes, data)} />
+                <GreatPicksModal 
+                    pickedArtists={getSelectedArtists(selectedIndexes, data)} 
+                    handleNavigation={handleNavigation}
+                />
             }   
         </SafeAreaView>
     )

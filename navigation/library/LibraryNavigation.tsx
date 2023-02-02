@@ -1,19 +1,25 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { HomeScreen } from "../../screens/home/HomeScreen";
+import { YourLibraryScreen } from "../../screens/library/YourLibraryScreen";
 
 
 type LibraryNavigationParamList = {
-    HomeIndex: undefined;
+    index: undefined;
 }
 
 const Stack = createNativeStackNavigator<LibraryNavigationParamList>();
 
 export const LibraryNavigation = () => {
     return (
-        <Stack.Navigator>
-            {/* <Stack.Screen name="HomeIndex" component={HomeScreen} /> */}
-            {/* <Stack.Screen name="" component={} /> */}
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+                contentStyle: {
+                    backgroundColor: '#121212'
+                }
+            }}
+        >
+            <Stack.Screen name="index" component={YourLibraryScreen} />
         </Stack.Navigator>
     )
 }

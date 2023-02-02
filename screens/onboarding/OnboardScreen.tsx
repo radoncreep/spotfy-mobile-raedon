@@ -1,22 +1,24 @@
-import React from "react";
+import React, { useContext } from "react";
 import { ImageBackground, Platform, Pressable, Text, View, StyleSheet } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { AntDesign, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 import { Heading, VStack } from "native-base";
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-
+import Reactotron from "reactotron-react-native";
 
 
 import { IMAGES } from "../../lib/constants";
 import { AppTouchableButton } from "../../components";
 import { OnboardStackParamList } from "../../types/stackScreen.types";
+import { AuthContext } from "../../store/Auth.context";
 
 
 type Socials = "Google" | "Facebook" | "Apple";
 
 
-const renderOAuthButtons = () => {
+const RenderOAuthButtons = ({ navigation, route }: NativeStackScreenProps<OnboardStackParamList, 'OnboardScreen'>) => {
     const socials: Socials[] = ["Google", "Facebook", "Apple"];
+    const { dispatch } = useContext(AuthContext);
 
     const renderLeftIcon = (social: Socials) => {
         switch (social) {
@@ -27,6 +29,21 @@ const renderOAuthButtons = () => {
             default:
                 return <AntDesign name="google" size={24} color="red" />;
         }
+    }
+
+    const handlePress = () => {
+        Reactotron.log!("hi there")
+        // dispatch({
+        //     type: 'login',
+        //     payload: {
+        //         username: 'Victor',
+        //         email: 'victor@mail.com',
+        //         password: 'password',
+        //         dob: '20-01-2023',
+        //         gender: 'male'
+        //     }
+        // })
+        navigation.navigate('ChooseArtistScreen');
     }
 
     return (
@@ -40,7 +57,7 @@ const renderOAuthButtons = () => {
                             <AppTouchableButton 
                                 
                                 text={`Continue with ${social}`}
-                                onPress={() => console.log(social)}
+                                onPress={handlePress}
                                 containerStyle={{
                                     borderRadius: 20,
                                     flexDirection: 'row',
@@ -137,7 +154,7 @@ export const OnboardScreen = (
                                 }}
                             /> 
 
-                            {renderOAuthButtons()}
+                            <RenderOAuthButtons navigation={navigation} route={route} />
                         </VStack>
 
                         <View style={{ marginTop: 40 }}>

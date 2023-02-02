@@ -1,23 +1,25 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { NativeBaseProvider } from "native-base";
 import { NavigationContainer } from '@react-navigation/native';
-import { OnboardStackNavigator } from './navigation/Onboard';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { onlineManager, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { appTheme } from './theme';
-import { AuthenticatedNavigation } from './navigation/Authenticated';
+import { AuthContextProvider } from './store/Auth.context';
+import { Root } from './navigation/Root';
+import { queryClient, QueryClientProvider } from './config/queryClient';
 
+
+if(__DEV__) {
+  import('./config/reactotron.config').then(() => console.log('Reactotron Configured'));
+}
 
 SplashScreen.preventAutoHideAsync();
 
-const queryClient = new QueryClient();
-
 export default function App() {
   const [ ready, setReady ] = useState<boolean>(false);
-  const [ isAuthenticated, setIsAuthenticated ] = useState<boolean>(true);
+
 
   useEffect(() => {
     async function load() {
@@ -45,9 +47,11 @@ export default function App() {
         <NativeBaseProvider theme={appTheme}>
           <View style={styles.container} onLayout={onLayoutRootView}>
             {/* if authenticated then navigate to bottom tab home screen else onboard */}
-            <QueryClientProvider client={queryClient}>
-              { !isAuthenticated ? <OnboardStackNavigator /> : <AuthenticatedNavigation /> }
-            </QueryClientProvider>
+            <AuthContextProvider>
+              <QueryClientProvider client={queryClient}>
+                <Root />
+              </QueryClientProvider>
+            </AuthContextProvider>
             <StatusBar style="light" />
           </View>
         </NativeBaseProvider>

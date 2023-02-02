@@ -1,24 +1,36 @@
-import { StyleSheet, Text, View } from "react-native";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
-export const HomeScreen = () => {
+import { HomeScreenHeader } from "../../components";
+import { HomeNavigationParamList } from "../../types/stackScreen.types";
+import { NewReleaseSection } from "./sections/NewReleases";
+
+
+export const HomeScreen = ({ navigation, route }: NativeStackScreenProps<HomeNavigationParamList, 'HomeIndex'>) => {
+
+   // isLoading will be used to render some skeleton or placeholder som sh$% like that
+
     return (
-        <View style={styles.container}>
-            <Text
-                style={{
-                    fontSize: 20,
-                    color: '#fff'
-                }}
-            >
+        <SafeAreaView style={styles.container} edges={["top"]}>
+            <ScrollView>
+                <HomeScreenHeader />
 
-            </Text>
-        </View>
+                <View style={{ marginVertical: 20 }}>
+                    <NewReleaseSection navigation={navigation} route={route} />
+                </View>
+
+            </ScrollView>
+        </SafeAreaView>
     )
 }
 
 
 const styles = StyleSheet.create({
     container: {
-
-    }
+        flex: 1,
+        paddingHorizontal: 12,
+        paddingTop: 2,
+    },
 })
