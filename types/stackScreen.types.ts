@@ -1,5 +1,7 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
+import { AlbumResponse } from '../api/album/album.types';
 import { NewReleaseItem } from '../api/browse/browse.types';
+import { IArtist } from './artist';
 
 export type RootSignupStackParamList = {
     Username: {email: string, password: string, dob: string, gender: string } | undefined;
@@ -22,5 +24,5 @@ export type OnboardStackParamList = {
 
 export type HomeNavigationParamList = {
     HomeIndex: undefined;
-    Details: NewReleaseItem;
+    Details: NewReleaseItem | { artist: IArtist, album: AlbumResponse };
 }

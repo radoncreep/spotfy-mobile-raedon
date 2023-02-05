@@ -2,24 +2,25 @@ import { useQueries } from "@tanstack/react-query";
 import { Image, Text, View } from "react-native";
 import { useEffect, useState } from "react";
 
-import { getArtistTopTracks } from "../../api/ArtistsAPI";
+import { getArtistTopTracks } from "../../api/artists/ArtistsAPI";
 import { IArtist } from "../../types/artist";
 import { RecommendationParams } from "../../types/shared";
 import { TracksResponse } from "../../types/tracks";
 import AppModal from "../core/AppModal";
 import { FetchingMusic } from "./FetchingMusic";
+import { setItemInCache } from "../../utils/cache";
 
 
 type GreatPicksModalProps = {
-    pickedArtists: IArtist[];
+    selectedArtists: IArtist[];
     handleNavigation: () => void;
 }
 
-const GreatPicksModal = ({ pickedArtists, handleNavigation }: GreatPicksModalProps) => {
+const GreatPicksModal = ({ selectedArtists, handleNavigation }: GreatPicksModalProps) => {
     const [previewed, setPreviewed ] = useState(false);
 
     const queriedData = useQueries({
-        queries: pickedArtists.map((artist) => {
+        queries: selectedArtists.map((artist) => {
             return {
                 queryKey: ['artist', artist.id],
                 queryFn: () => getArtistTopTracks(artist.id),
@@ -44,10 +45,16 @@ const GreatPicksModal = ({ pickedArtists, handleNavigation }: GreatPicksModalPro
    
     let allSuccessful = queriedData.every((elem) => elem.data !== undefined);
 
+    const cacheSelectedArtist = (artists: IArtist[]) => {
+        setItemInCache('liked-artists', artists);
+    }
+
     useEffect(() => {
+        cacheSelectedArtist(selectedArtists);
+
         setTimeout(() => {
             setPreviewed(true);
-        }, 5000)
+        }, 2000)
     }, []); 
 
     return (
@@ -68,7 +75,7 @@ const GreatPicksModal = ({ pickedArtists, handleNavigation }: GreatPicksModalPro
                             }}
                         >
                             <View style={{ flexDirection: 'row', marginBottom: 10, justifyContent: 'center'}}>
-                                {pickedArtists.map((artist, index) => {
+                                {selectedArtists.map((artist, index) => {
                                     return (
                                         <View key={index} style={{ width: 40, height: 60,  }} >
                                             { index < 4 &&

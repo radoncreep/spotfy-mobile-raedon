@@ -1,12 +1,13 @@
 import { Artist } from "../api/browse/browse.types";
 
 
-export const catchAsyncError = (fn: () => Promise<any>, args: any) => {
-    const caughtError = fn.apply(this, args);
-    // if (caughtError.catch) {
+export const catchAsyncError = (fn: (args: any) => Promise<any>, args: any) => (
+    (args: any) => {
+        const catchError = fn(args);
 
-    // }
-}
+        // if (catchError.catch)
+    }
+)
 
 export const joinArrayOfStrings = <T extends any[]>(param: T) => {
     return param.join(", ")
@@ -24,4 +25,10 @@ export const getArtistNameText = (artists: Artist[]) => {
 
 export const getMonthName = (monthNumber: string): string => {
     return new Date(`${+monthNumber + 1}`).toLocaleDateString(undefined, { month: 'long' });
+}
+
+export const isEmpty = (param: any) => {
+    if (Array.isArray(param)) {
+        return param.length === 0;
+    }
 }

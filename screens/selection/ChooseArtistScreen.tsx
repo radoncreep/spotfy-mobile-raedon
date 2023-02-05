@@ -23,7 +23,7 @@ import {
     ArtistAvatarListItem, 
     GreatPicksModal
 } from "../../components";
-import { getManyArtists } from "../../api/ArtistsAPI";
+import { getManyArtists } from "../../api/artists/ArtistsAPI";
 import { ViewSeperator } from "../../components/core/ViewSeperator";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { OnboardStackParamList } from "../../types/stackScreen.types";
@@ -93,7 +93,9 @@ const ChooseArtistScreen = (
     }
 
     const getSelectedArtists = (selectedIndexes: number[], artists: typeof data) => {
-        return selectedIndexes.map((selectedIdx) => artists[selectedIdx]);
+        const selectedArtists = selectedIndexes.map((selectedIdx) => artists[selectedIdx]);
+
+        return selectedArtists;
     }
     
     const handleNavigation = () => {
@@ -212,7 +214,7 @@ const ChooseArtistScreen = (
 
             { isDone && 
                 <GreatPicksModal 
-                    pickedArtists={getSelectedArtists(selectedIndexes, data)} 
+                    selectedArtists={getSelectedArtists(selectedIndexes, data)} 
                     handleNavigation={handleNavigation}
                 />
             }   

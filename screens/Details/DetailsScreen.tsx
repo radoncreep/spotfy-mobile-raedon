@@ -1,63 +1,59 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { Image, ImageBackground, StyleSheet, Text, View, ScrollView, Pressable } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
-import { useState } from 'react';
+import { useCallback,useState } from 'react';
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather, Ionicons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 
 
 import { HomeNavigationParamList } from "../../types/stackScreen.types";
 import { useImageColor } from "../../hooks/useImageColor";
-import { firstCharToUpper, getMonthName } from "../../utils/helper";
+import { firstCharToUpper, getMonthName, isEmpty } from "../../utils/helper";
 import { HStack, VStack } from "native-base";
 import { useQuery } from "@tanstack/react-query";
-import { getArtist } from "../../api/ArtistsAPI";
+import { getArtist } from "../../api/artists/ArtistsAPI";
 import { getAlbum } from "../../api/album/albumAPI";
 import { AlbumPlaylist } from "../../components";
+import { NewReleaseItem } from "../../api/browse/browse.types";
+import { useFocusEffect } from "@react-navigation/native";
+import { AlbumResponse } from "../../api/album/album.types";
+import { IArtist } from "../../types/artist";
 
 
 
 export const DetailsScreen = ({ navigation, route }: 
     NativeStackScreenProps<HomeNavigationParamList, 'Details'>
 ) => {
+    console.log("rendering");
     const insets = useSafeAreaInsets();
     const [ isFavorite, setIsFavorite ] = useState(false);
 
     const { 
-        name, 
-        artists, 
-        images, 
-        release_date, 
-        album_type,
-        id: albumId
-    } = route.params;
+        album: {
+            name, 
+            artists, 
+            images, 
+            release_date, 
+            album_type,
+            id: albumId,
+            copyrights,
+            tracks,
+        },
+        artist: {
+            images: artistImages
+        }
+    } = route.params as {album: AlbumResponse, artist: IArtist};
     const contentImage = images[0];
     const [release_year, release_month, release_day] = release_date.split('-');
     const mainArtist = artists[0];
 
-    const { data: artistImage, isLoading, error} = useQuery({
-        queryKey: [`${mainArtist.name}-image`],
-        queryFn: () => getArtist(mainArtist.id),
-        select: (data) => {
-            return data.images[0].url;
-        },
-        cacheTime: 60000
-    })
-
-    const { data: album, isLoading: isLoadingAlbum, error: albumFetchError} = useQuery({
-        queryKey: ['album', { albumId }],
-        queryFn: () => getAlbum(albumId),
-        cacheTime: 60000
-    })
 
     return (
         <SafeAreaView 
             style={styles.container} 
             edges={['right', 'left', ]} 
         >
-            <ScrollView 
-            // style={{ backgroundColor: 'orange' }}
-            >
+            <ScrollView>
                 <LinearGradient
                     colors={['orange', '#121212']}
                     locations={[0, 0.55]}
@@ -71,7 +67,6 @@ export const DetailsScreen = ({ navigation, route }:
                             <Feather name="chevron-left" size={30} color="#fff"  />
                         </Pressable>
 
-                        {/* USE FALLBACK IMAGE IF IMAGE HASNT LOADED */}
                         <View 
                             style={{ 
                                 alignItems: 'center', 
@@ -98,9 +93,9 @@ export const DetailsScreen = ({ navigation, route }:
                             <Text style={{ fontSize: 24, fontWeight: "bold", color: '#fff'}}>{name}</Text>
                             
                             <HStack alignItems='center' style={{ alignSelf: 'flex-start'}} space={2}>
-                                { artistImage && 
+                                { !isEmpty(artistImages) && 
                                     <Image 
-                                        source={{ uri: artistImage }} 
+                                        source={{ uri: artistImages[0].url }} 
                                         style={{ width: 20, height: 20, borderRadius: 30 }}
                                     /> 
                                 }
@@ -119,7 +114,6 @@ export const DetailsScreen = ({ navigation, route }:
                             </Text>
                         </VStack>
 
-                        {/* Tracks controls */}
                         <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'space-between' }}>
                             <HStack space="1.5">
                                 <Pressable onPress={() => setIsFavorite((prev) => !prev)}>
@@ -150,12 +144,8 @@ export const DetailsScreen = ({ navigation, route }:
                             </HStack>
                         </View>
 
-                        {/* Tracks list */}
-                        {album && (
-                            <AlbumPlaylist tracks={album.tracks.items} />
-                        )}
+                        <AlbumPlaylist tracks={tracks.items} />
 
-                        {/*release date */}
                         <View style={{ marginVertical: 30, alignSelf: 'flex-start', paddingHorizontal: 10 }}>
                             <Text 
                                 style={{ fontSize: 12, fontWeight: '600', color: '#fff', opacity: .9 }}
@@ -164,10 +154,9 @@ export const DetailsScreen = ({ navigation, route }:
                             </Text>
                         </View>
 
-                        {/* profile image and name*/}
                         <HStack space={2} alignItems="center">
                             <Image 
-                                source={{ uri: artistImage }}
+                                source={{ uri: !isEmpty(artistImages) ? artistImages[0].url : "" }}
                                 style={{
                                     width: 60,
                                     height: 60,
@@ -185,12 +174,11 @@ export const DetailsScreen = ({ navigation, route }:
                     </View>
                 </LinearGradient>
                 
-                {/* Copyright data */}
                 <View style={{ flexDirection: 'row', justifyContent: 'center', flex: 1, marginTop: 40 }}>
                     <Text
                         style={{ fontSize: 12, fontWeight: '600', color: '#fff', opacity: .9, textAlign: 'center' }}
                     >
-                        {album?.copyrights[0].text}
+                        {copyrights[0].text}
                     </Text>
                 </View>
                
