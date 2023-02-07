@@ -1,14 +1,13 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { ScrollView, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-
 import { HomeScreenHeader } from "../../components";
-import { HomeNavigationParamList } from "../../types/stackScreen.types";
+import { HomeScreenStackNavigationProps } from "./homeScreen.types";
+import { FavouriteArtistSection } from "./sections/FavouriteArtists";
 import { NewReleaseSection } from "./sections/NewReleases";
 
 
-export const HomeScreen = ({ navigation, route }: NativeStackScreenProps<HomeNavigationParamList, 'HomeIndex'>) => {
+export const HomeScreen = ({ navigation, route }: HomeScreenStackNavigationProps) => {
 
    // isLoading will be used to render some skeleton or placeholder som sh$% like that
 
@@ -20,6 +19,8 @@ export const HomeScreen = ({ navigation, route }: NativeStackScreenProps<HomeNav
                 <View style={{ marginVertical: 20 }}>
                     <NewReleaseSection navigation={navigation} route={route} />
                 </View>
+
+                <FavouriteArtistSection />
 
             </ScrollView>
         </SafeAreaView>
