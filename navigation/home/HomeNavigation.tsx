@@ -23,11 +23,8 @@ export const HomeNavigation = () => {
             }}
             
         >
-            <Stack.Screen 
-                name="HomeIndex" 
-                component={HomeScreen} 
-            />
-            <Stack.Screen name="Details" component={DetailsScreen} />
+            <Stack.Screen name="HomeIndex" component={HomeScreen} />
+            <Stack.Screen name="AlbumDetails" component={DetailsScreen} />
         </Stack.Navigator>
     )
 }

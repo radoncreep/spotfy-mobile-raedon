@@ -1,27 +1,24 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { 
     FlatList, 
     Image, 
     ListRenderItemInfo, 
     Text, 
-    TouchableOpacity, 
     TouchableHighlight,
     View 
 } from "react-native";
 import { VStack } from "native-base";
+import { useQuery } from "@tanstack/react-query";
 
 import { NewReleaseItem } from "../../../api/browse/browse.types";
-import { HomeNavigationParamList } from "../../../types/stackScreen.types";
 import { getArtistNameText } from "../../../utils/helper";
 import { Markets } from "../../../types/markets";
-import { useQuery } from "@tanstack/react-query";
 import { getNewReleases } from "../../../api/browse/BrowseAPI";
+import { HomeScreenStackNavigationProps } from "../homeScreen.types";
 
 
-type NewReleaseProps = NativeStackScreenProps<HomeNavigationParamList, 'HomeIndex'>;
+type NewReleaseSectionProps = HomeScreenStackNavigationProps;
 
-type FlatListItemProp = ListRenderItemInfo<NewReleaseItem> & 
-    NativeStackScreenProps<HomeNavigationParamList, 'HomeIndex'>;
+type FlatListItemProp = ListRenderItemInfo<NewReleaseItem> & NewReleaseSectionProps;
  
 const FlatListItem = ({ index, item, navigation }: FlatListItemProp) => {
     let imageProp = {
@@ -77,7 +74,7 @@ const FlatListItem = ({ index, item, navigation }: FlatListItemProp) => {
     )
 }
 
-export const NewReleaseSection = ({ navigation, route }: NewReleaseProps) => {
+export const NewReleaseSection = ({ navigation, route }: NewReleaseSectionProps) => {
     // writing a test query to reuse 
     // get location of user -dummy in this case from cache fr if not use default NG
     let country: Markets[keyof Markets] = "NG";
@@ -91,6 +88,10 @@ export const NewReleaseSection = ({ navigation, route }: NewReleaseProps) => {
     });
 
     if (!data) return null;
+
+    if (error) {
+        console.log("Error loading new release ", { error });
+    }
 
     return (
         <>

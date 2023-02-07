@@ -34,7 +34,7 @@ export const OnboardStackNavigator = () => {
                 <Stack.Screen name="DateOfBirth" component={DateOfBirthScreen} />
                 <Stack.Screen name="Gender" component={GenderScreen} />
                 <Stack.Screen name="Username" component={UsernameScreen} />
-                </Stack.Group>
+            </Stack.Group>
             <Stack.Screen 
                 options={{ 
                     headerShown: false, 

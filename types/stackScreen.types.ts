@@ -1,5 +1,6 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
 import { NewReleaseItem } from '../api/browse/browse.types';
+import { ArtistData } from './artist.types';
 
 export type RootSignupStackParamList = {
     Username: {email: string, password: string, dob: string, gender: string } | undefined;
@@ -22,5 +23,6 @@ export type OnboardStackParamList = {
 
 export type HomeNavigationParamList = {
     HomeIndex: undefined;
-    Details: NewReleaseItem;
+    AlbumDetails: NewReleaseItem;
+    // ArtistDetails: A
 }
