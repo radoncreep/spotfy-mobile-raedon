@@ -17,9 +17,9 @@ export const HomeNavigation = () => {
                 contentStyle: {
                     backgroundColor: '#121212'
                 },
-                // animationDuration: 0,
-                // animation: "default",
-                // animationTypeForReplace: "pop"
+                animationDuration: 0,
+                animation: "default",
+                animationTypeForReplace: "pop"
             }}
             
         >
