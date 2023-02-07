@@ -5,6 +5,7 @@ import {
     ListRenderItemInfo, 
     Text, 
     TouchableOpacity, 
+    TouchableHighlight,
     View 
 } from "react-native";
 import { VStack } from "native-base";
@@ -40,8 +41,8 @@ const FlatListItem = ({ index, item, navigation }: FlatListItemProp) => {
 
     return (
         <VStack space={2} maxWidth={140}>
-            <TouchableOpacity 
-                activeOpacity={0.5}
+            <TouchableHighlight 
+                activeOpacity={0.7}
                 onPress={onPressCard}
             >
                 <Image 
@@ -51,7 +52,7 @@ const FlatListItem = ({ index, item, navigation }: FlatListItemProp) => {
                         height: 150
                     }}
                 />
-            </TouchableOpacity>
+            </TouchableHighlight>
 
             <View style={{ }}>
                 <Text style={{ fontSize: 12, fontWeight: '500', color: '#fff' }}>

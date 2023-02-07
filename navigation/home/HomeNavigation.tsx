@@ -17,10 +17,16 @@ export const HomeNavigation = () => {
                 contentStyle: {
                     backgroundColor: '#121212'
                 },
-                // presentation: ''
+                animationDuration: 0,
+                animation: "default",
+                animationTypeForReplace: "pop"
             }}
+            
         >
-            <Stack.Screen name="HomeIndex" component={HomeScreen} />
+            <Stack.Screen 
+                name="HomeIndex" 
+                component={HomeScreen} 
+            />
             <Stack.Screen name="Details" component={DetailsScreen} />
         </Stack.Navigator>
     )
