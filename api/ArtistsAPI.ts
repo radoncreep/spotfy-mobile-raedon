@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-import { api } from "./config"
+import { api } from "../config/axiosInstance"
 import artistsJson from "../lib/data/artists.data.json";
 import { IArtist } from "../types/artist";
 import { ITrack, TracksResponse } from "../types/tracks";

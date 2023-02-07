@@ -41,13 +41,15 @@ export const DetailsScreen = ({ navigation, route }:
         select: (data) => {
             return data.images[0].url;
         },
-        cacheTime: 60000
+        // cacheTime: 0,
+        enabled: true
     })
 
     const { data: album, isLoading: isLoadingAlbum, error: albumFetchError} = useQuery({
         queryKey: ['album', { albumId }],
         queryFn: () => getAlbum(albumId),
-        cacheTime: 60000
+        // cacheTime: 0,
+        enabled: true
     })
 
     return (

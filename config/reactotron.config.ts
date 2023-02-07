@@ -10,7 +10,8 @@ Reactotron
   .setAsyncStorageHandler!(AsyncStorage) // AsyncStorage would either come from `react-native` or `@react-native-community/async-storage` depending on where you get it from
   .configure({
     name: "React Native Demo",
-    host: '172.20.10.2', // when using expo use machine's ip address
+    // host: '172.20.10.2', // when using expo use machine's ip address
+    host: '192.168.0.156',
     onDisconnect: () => {
       queryClientManager.unsubscribe();
     }
