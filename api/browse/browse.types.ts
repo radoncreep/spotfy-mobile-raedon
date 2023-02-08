@@ -1,8 +1,8 @@
-export interface ExternalUrls {
+interface ExternalUrls {
     spotify: string;
 }
 
-export interface Artist {
+interface Artist {
     external_urls: ExternalUrls;
     href: string;
     id: string;
@@ -11,11 +11,11 @@ export interface Artist {
     uri: string;
 }
 
-export interface ExternalUrls2 {
+interface ExternalUrls2 {
     spotify: string;
 }
 
-export interface Image {
+interface Image {
     height: number;
     url: string;
     width: number;
