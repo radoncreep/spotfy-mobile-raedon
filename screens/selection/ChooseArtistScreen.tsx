@@ -23,7 +23,7 @@ import {
     ArtistAvatarListItem, 
     GreatPicksModal
 } from "../../components";
-import { getManyArtists } from "../../api/ArtistsAPI";
+import { getManyArtists } from "../../api/artist/ArtistsAPI";
 import { ViewSeperator } from "../../components/core/ViewSeperator";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { OnboardStackParamList } from "../../types/stackScreen.types";
