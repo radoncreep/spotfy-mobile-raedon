@@ -18,7 +18,7 @@ import { AlbumPlaylist } from "../../components";
 
 
 export const DetailsScreen = ({ navigation, route }: 
-    NativeStackScreenProps<HomeNavigationParamList, 'AlbumDetails'>
+    NativeStackScreenProps<HomeNavigationParamList, 'AlbumScreen'>
 ) => {
     const insets = useSafeAreaInsets();
     const [ isFavorite, setIsFavorite ] = useState(false);

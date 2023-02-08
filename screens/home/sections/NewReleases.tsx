@@ -10,7 +10,7 @@ import { VStack } from "native-base";
 import { useQuery } from "@tanstack/react-query";
 
 import { NewReleaseItem } from "../../../api/browse/browse.types";
-import { getArtistNameText } from "../../../utils/helper";
+import { firstCharToUpper, getArtistNameText } from "../../../utils/helper";
 import { Markets } from "../../../types/markets";
 import { getNewReleases } from "../../../api/browse/BrowseAPI";
 import { HomeScreenStackNavigationProps } from "../homeScreen.types";
@@ -27,13 +27,8 @@ const FlatListItem = ({ index, item, navigation }: FlatListItemProp) => {
         height: item.images[2].height
     }
 
-
-    const firstCharToUpper = (str: string) => {
-        return str.charAt(0).toUpperCase() + str.slice(1)
-    }
-
     const onPressCard = () => {
-        navigation.navigate('Details', { ...item });
+        navigation.navigate('AlbumScreen', { ...item });
     }
 
     return (
@@ -96,7 +91,7 @@ export const NewReleaseSection = ({ navigation, route }: NewReleaseSectionProps)
     return (
         <>
             <View>
-                <Text style={{ color: '#fff', fontSize: 26, fontWeight: '600'}}>
+                <Text style={{ color: '#fff', fontSize: 24, fontWeight: '600'}}>
                     Popular new releases
                 </Text>
             </View>
@@ -108,7 +103,7 @@ export const NewReleaseSection = ({ navigation, route }: NewReleaseSectionProps)
                 ItemSeparatorComponent={() => <View style={{ width: 14}} /> }
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{
-                    marginVertical: 20
+                    marginVertical: 12
                 }}
                 keyExtractor={({ id }) => id}
             />

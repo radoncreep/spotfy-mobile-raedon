@@ -28,7 +28,7 @@ import { ViewSeperator } from "../../components/core/ViewSeperator";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { OnboardStackParamList } from "../../types/stackScreen.types";
 import { AuthContext } from "../../store/Auth.context";
-import { setItemInCache } from "../../utils/cache";
+import { mergeItemInCache, setItemInCache } from "../../utils/cache";
 
 
 const ChooseArtistScreen = (
@@ -95,7 +95,7 @@ const ChooseArtistScreen = (
 
     const getSelectedArtists = (selectedIndexes: number[], artists: typeof data) => {
         const userSelectedArtists = selectedIndexes.map((selectedIdx) => artists[selectedIdx]);
-        setItemInCache('favourite-artists', userSelectedArtists);
+        mergeItemInCache('favourite-artists', userSelectedArtists);
 
         return userSelectedArtists;
     }
