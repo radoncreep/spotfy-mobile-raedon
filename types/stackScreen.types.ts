@@ -1,5 +1,7 @@
 import { NavigatorScreenParams } from '@react-navigation/native';
-import { Artist, NewReleaseItem } from '../api/browse/browse.types';
+
+import { NewReleaseItem } from '../api/browse/browse.types';
+import { IArtistResponse } from '../api/artist/artist.types';
 
 
 export type RootSignupStackParamList = {
@@ -24,5 +26,5 @@ export type OnboardStackParamList = {
 export type HomeNavigationParamList = {
     HomeIndex: undefined;
     AlbumScreen: NewReleaseItem;
-    ArtistScreen: Artist
+    ArtistScreen: IArtistResponse
 }

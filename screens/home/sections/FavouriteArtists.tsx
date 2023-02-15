@@ -48,6 +48,9 @@ export const FavouriteArtistSection = ({ navigation, route }: FavouriteArtistSec
         })();
     }, []);
 
+
+    console.log({ favouriteArtists })
+
     return (
         <>
             <View>

@@ -11,9 +11,9 @@ import { Root } from './navigation/Root';
 import { queryClient, QueryClientProvider } from './config/queryClient';
 
 
-// if(__DEV__) {
-//   import('./config/reactotron.config').then(() => console.log('Reactotron Configured'));
-// }
+if(__DEV__) {
+  import('./config/reactotron.config').then(() => console.log('Reactotron Configured'));
+}
 
 SplashScreen.preventAutoHideAsync();
 

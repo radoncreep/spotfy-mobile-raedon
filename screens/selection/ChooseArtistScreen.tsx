@@ -95,7 +95,7 @@ const ChooseArtistScreen = (
 
     const getSelectedArtists = (selectedIndexes: number[], artists: typeof data) => {
         const userSelectedArtists = selectedIndexes.map((selectedIdx) => artists[selectedIdx]);
-        mergeItemInCache('favourite-artists', userSelectedArtists);
+        setItemInCache('favourite-artists', userSelectedArtists);
 
         return userSelectedArtists;
     }
