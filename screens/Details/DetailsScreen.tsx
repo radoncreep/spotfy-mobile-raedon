@@ -11,14 +11,14 @@ import { useImageColor } from "../../hooks/useImageColor";
 import { firstCharToUpper, getMonthName } from "../../utils/helper";
 import { HStack, VStack } from "native-base";
 import { useQuery } from "@tanstack/react-query";
-import { getArtist } from "../../api/ArtistsAPI";
+import { getArtist } from "../../api/artist/ArtistsAPI";
 import { getAlbum } from "../../api/album/albumAPI";
 import { AlbumPlaylist } from "../../components";
 
 
 
 export const DetailsScreen = ({ navigation, route }: 
-    NativeStackScreenProps<HomeNavigationParamList, 'AlbumDetails'>
+    NativeStackScreenProps<HomeNavigationParamList, 'AlbumScreen'>
 ) => {
     const insets = useSafeAreaInsets();
     const [ isFavorite, setIsFavorite ] = useState(false);

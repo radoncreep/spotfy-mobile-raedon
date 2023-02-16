@@ -11,16 +11,22 @@ export const HomeScreen = ({ navigation, route }: HomeScreenStackNavigationProps
 
    // isLoading will be used to render some skeleton or placeholder som sh$% like that
 
+   const sections = [NewReleaseSection, FavouriteArtistSection];
+
     return (
         <SafeAreaView style={styles.container} edges={["top"]}>
             <ScrollView>
                 <HomeScreenHeader />
 
-                <View style={{ marginVertical: 20 }}>
-                    <NewReleaseSection navigation={navigation} route={route} />
-                </View>
+                {sections.map((SectionComponent, index) => (
+                    <View key={index}>
+                        <SectionComponent navigation={navigation} route={route} />
+                    </View>
+                ))}
 
-                <FavouriteArtistSection />
+                {/* <NewReleaseSection navigation={navigation} route={route} />
+
+                <FavouriteArtistSection navigation={navigation} route={route} /> */}
 
             </ScrollView>
         </SafeAreaView>
