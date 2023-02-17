@@ -9,7 +9,7 @@ import { ArtistScreenProps } from "./artistScreen.types";
 
 
 interface ArtistTopTracksProps {
-    tracks: TracksResponse['tracks']
+    tracks: TracksResponse['tracks'];
 }
 
 
@@ -101,8 +101,6 @@ export const ArtistTopTracks = (
                         <Pressable onPress={() => console.log("pressed options")}>
                             <SimpleLineIcons name="options" size={22} style={styles.inactiveIcon} />
                         </Pressable>
-
-                        {/* options icon */}
                     </HStack>
                 </Pressable>
 
