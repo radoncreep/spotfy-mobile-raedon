@@ -2,7 +2,7 @@ import { useQueries } from "@tanstack/react-query";
 import { Image, Text, View } from "react-native";
 import { useEffect, useState } from "react";
 
-import { getArtistTopTracks } from "../../api/ArtistsAPI";
+import { getArtistTopTracks } from "../../api/artist/ArtistsAPI";
 import { IArtist } from "../../types/artist";
 import { RecommendationParams } from "../../types/shared";
 import { TracksResponse } from "../../types/tracks";
@@ -47,7 +47,7 @@ const GreatPicksModal = ({ pickedArtists, handleNavigation }: GreatPicksModalPro
     useEffect(() => {
         setTimeout(() => {
             setPreviewed(true);
-        }, 5000)
+        }, 2000)
     }, []); 
 
     return (

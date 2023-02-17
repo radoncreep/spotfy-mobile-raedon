@@ -33,9 +33,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'flex-end',
         height: 56,
+        marginBottom: 14
     },
     headerText: {
-        fontSize: 28,
+        fontSize: 26,
         fontWeight: '700',
         color: '#fff'
     }

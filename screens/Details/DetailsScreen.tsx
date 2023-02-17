@@ -8,17 +8,17 @@ import { Feather, Ionicons, MaterialIcons, SimpleLineIcons } from '@expo/vector-
 
 import { HomeNavigationParamList } from "../../types/stackScreen.types";
 import { useImageColor } from "../../hooks/useImageColor";
-import { firstCharToUpper } from "../../utils/helper";
+import { firstCharToUpper, getMonthName } from "../../utils/helper";
 import { HStack, VStack } from "native-base";
 import { useQuery } from "@tanstack/react-query";
-import { getArtist } from "../../api/ArtistsAPI";
+import { getArtist } from "../../api/artist/ArtistsAPI";
 import { getAlbum } from "../../api/album/albumAPI";
 import { AlbumPlaylist } from "../../components";
 
 
 
 export const DetailsScreen = ({ navigation, route }: 
-    NativeStackScreenProps<HomeNavigationParamList, 'Details'>
+    NativeStackScreenProps<HomeNavigationParamList, 'AlbumScreen'>
 ) => {
     const insets = useSafeAreaInsets();
     const [ isFavorite, setIsFavorite ] = useState(false);
@@ -28,12 +28,11 @@ export const DetailsScreen = ({ navigation, route }:
         artists, 
         images, 
         release_date, 
-        release_date_precision,
         album_type,
         id: albumId
     } = route.params;
     const contentImage = images[0];
-    const release_year = release_date.split('-')[0];
+    const [release_year, release_month, release_day] = release_date.split('-');
     const mainArtist = artists[0];
 
     const { data: artistImage, isLoading, error} = useQuery({
@@ -42,29 +41,37 @@ export const DetailsScreen = ({ navigation, route }:
         select: (data) => {
             return data.images[0].url;
         },
-        cacheTime: 60000
+        // cacheTime: 0,
+        enabled: true
     })
 
     const { data: album, isLoading: isLoadingAlbum, error: albumFetchError} = useQuery({
         queryKey: ['album', { albumId }],
         queryFn: () => getAlbum(albumId),
-        cacheTime: 60000
+        // cacheTime: 0,
+        enabled: true
     })
 
     return (
         <SafeAreaView 
             style={styles.container} 
-            edges={['right', 'bottom', 'left']} 
+            edges={['right', 'left', ]} 
         >
-           
-            <LinearGradient
-                colors={['orange', '#121212']}
-                locations={[0, 0.55]}
-                style={[styles.gradient_container, { paddingTop: insets.top + 20 }]}
+            <ScrollView 
+            // style={{ backgroundColor: 'orange' }}
             >
-                <ScrollView>
+                <LinearGradient
+                    colors={['orange', '#121212']}
+                    locations={[0, 0.55]}
+                    style={[styles.gradient_container, { paddingTop: insets.top + 20 }]}
+                >
                     <View style={styles.imageContainer}>
-                        <Feather name="chevron-left" size={30} color="#fff" style={{ flex: 0.1, top: -5 }} />
+                        <Pressable 
+                            onPress={() => navigation.goBack() }
+                            style={{ flex: 0.1, top: -5 }}
+                        >
+                            <Feather name="chevron-left" size={30} color="#fff"  />
+                        </Pressable>
 
                         {/* USE FALLBACK IMAGE IF IMAGE HASNT LOADED */}
                         <View 
@@ -87,8 +94,8 @@ export const DetailsScreen = ({ navigation, route }:
                             />
                         </View>
                     </View>
-                    
-                    <View style={{ paddingHorizontal: 10}}>
+                        
+                    <View style={{ paddingHorizontal: 10, flex: 1 }}>
                         <VStack  space={1.5}>
                             <Text style={{ fontSize: 24, fontWeight: "bold", color: '#fff'}}>{name}</Text>
                             
@@ -150,9 +157,46 @@ export const DetailsScreen = ({ navigation, route }:
                             <AlbumPlaylist tracks={album.tracks.items} />
                         )}
 
+                        {/*release date */}
+                        <View style={{ marginVertical: 30, alignSelf: 'flex-start', paddingHorizontal: 10 }}>
+                            <Text 
+                                style={{ fontSize: 12, fontWeight: '600', color: '#fff', opacity: .9 }}
+                            >
+                                {`${getMonthName(release_month)} ${release_day}, ${release_year}`}
+                            </Text>
+                        </View>
+
+                        {/* profile image and name*/}
+                        <HStack space={2} alignItems="center">
+                            <Image 
+                                source={{ uri: artistImage }}
+                                style={{
+                                    width: 60,
+                                    height: 60,
+                                    borderRadius: 30
+                                }}
+                            />
+
+                            <Text
+                                style={{ fontSize: 14, fontWeight: '600', color: '#fff', opacity: .9 }}
+                            >
+                                {mainArtist.name}
+                            </Text>
+                        </HStack>
+
                     </View>
-                </ScrollView>
-            </LinearGradient>
+                </LinearGradient>
+                
+                {/* Copyright data */}
+                <View style={{ flexDirection: 'row', justifyContent: 'center', flex: 1, marginTop: 40 }}>
+                    <Text
+                        style={{ fontSize: 12, fontWeight: '600', color: '#fff', opacity: .9, textAlign: 'center' }}
+                    >
+                        {album?.copyrights[0].text}
+                    </Text>
+                </View>
+               
+            </ScrollView>
         </SafeAreaView>
     )
 }
@@ -166,7 +210,8 @@ const styles = StyleSheet.create({
         flex: 1
     },
     gradient_container: {
-        flex: 1
+        flex: 1,
+        backgroundColor: 'pink'
     },
     imageContainer: {
         flex: 1,

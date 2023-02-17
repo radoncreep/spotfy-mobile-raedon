@@ -23,11 +23,12 @@ import {
     ArtistAvatarListItem, 
     GreatPicksModal
 } from "../../components";
-import { getManyArtists } from "../../api/ArtistsAPI";
+import { getManyArtists } from "../../api/artist/ArtistsAPI";
 import { ViewSeperator } from "../../components/core/ViewSeperator";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { OnboardStackParamList } from "../../types/stackScreen.types";
 import { AuthContext } from "../../store/Auth.context";
+import { mergeItemInCache, setItemInCache } from "../../utils/cache";
 
 
 const ChooseArtistScreen = (
@@ -93,7 +94,10 @@ const ChooseArtistScreen = (
     }
 
     const getSelectedArtists = (selectedIndexes: number[], artists: typeof data) => {
-        return selectedIndexes.map((selectedIdx) => artists[selectedIdx]);
+        const userSelectedArtists = selectedIndexes.map((selectedIdx) => artists[selectedIdx]);
+        setItemInCache('favourite-artists', userSelectedArtists);
+
+        return userSelectedArtists;
     }
     
     const handleNavigation = () => {

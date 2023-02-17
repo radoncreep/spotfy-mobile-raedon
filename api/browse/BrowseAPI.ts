@@ -3,7 +3,7 @@ import { Markets } from "../../types/markets";
 import { RecommendationsResponse } from "../../types/recommendations";
 import { RecommendationParams } from "../../types/shared";
 
-import { api } from "../config";
+import { api } from "../../config/axiosInstance";
 import { NewReleaseResponse } from "./browse.types";
 
 // const getRange = 

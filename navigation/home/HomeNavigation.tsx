@@ -1,9 +1,10 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useToken } from "native-base";
 
 import { HomeNavigationParamList } from "../../types/stackScreen.types";
 import { HomeScreen } from "../../screens/home/HomeScreen";
+
 import { DetailsScreen } from "../../screens/Details/DetailsScreen";
+import { ArtistScreen } from "../../screens/shared/Artist/ArtistScreen";
 
 
 const Stack = createNativeStackNavigator<HomeNavigationParamList>();
@@ -17,11 +18,15 @@ export const HomeNavigation = () => {
                 contentStyle: {
                     backgroundColor: '#121212'
                 },
-                // presentation: ''
+                animationDuration: 0,
+                animation: "default",
+                animationTypeForReplace: "pop"
             }}
+            
         >
             <Stack.Screen name="HomeIndex" component={HomeScreen} />
-            <Stack.Screen name="Details" component={DetailsScreen} />
+            <Stack.Screen name="AlbumScreen" component={DetailsScreen} />
+            <Stack.Screen name="ArtistScreen" component={ArtistScreen} />
         </Stack.Navigator>
     )
 }

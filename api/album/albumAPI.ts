@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
 import { AlbumResponse } from "./album.types";
-import { api } from "../config";
+import { api } from "../../config/axiosInstance";
 
 
 export const getAlbum = async (id: string): Promise<AlbumResponse> => {
