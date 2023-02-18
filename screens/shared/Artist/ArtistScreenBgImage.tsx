@@ -21,6 +21,7 @@ type BgProps<T> = {
 export const ArtistScreenBgImage = 
     <T extends { goBack: () => void}>({ images, artistName, navigation}: BgProps<T>
 ) => {
+    console.log("rendered bg")
     const insets = useSafeAreaInsets();
 
     const goBack = () => navigation.goBack();

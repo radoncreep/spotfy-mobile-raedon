@@ -3,14 +3,16 @@ import { Image, ImageProps, Modal, Pressable, ScrollView, StyleSheet, Text, View
 import { FontAwesome } from '@expo/vector-icons';
 import { AppRainMeter } from "../../../components";
 import { BlurView } from 'expo-blur';
-import { Dispatch, ElementType } from "react";
 import { AntDesign, Entypo, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Dispatch } from "react";
+
 
 type ArtistScreenModalProps = {
     isVisible: boolean;
     imageSource: string;
     artistName: string;
-    // setModalVisible: Dispatch<React.SetStateAction<boolean>>;
+    isFollowingArtist: boolean;
+    setisFollowingArtist: Dispatch<React.SetStateAction<boolean>>;
     onCloseModal: () => void;
 }
 
@@ -32,6 +34,8 @@ const IconAndText = ({ onPress, text }: IconAndTextProps) => {
                 return <Entypo name="share-alternative" size={36} color="#fff" />;
             case "Go to radio":
                 return<Feather name="radio" size={36} color="#fff" />;
+            case "Follow":
+                return <AntDesign name="adduser" size={36} color="#fff" />;
             default:
                 return <></>;
         }
@@ -57,8 +61,14 @@ const IconAndText = ({ onPress, text }: IconAndTextProps) => {
     )
 }
 
-export const ArtistScreenModal = (
-    {imageSource, isVisible, artistName, onCloseModal}: ArtistScreenModalProps
+export const ArtistScreenModal = ({
+    imageSource, 
+    isVisible, 
+    artistName, 
+    onCloseModal,
+    isFollowingArtist,
+    setisFollowingArtist
+}: ArtistScreenModalProps
 ) => {
     return (
         <Modal 
@@ -94,36 +104,21 @@ export const ArtistScreenModal = (
 
                     <VStack space={4} style={styles.controls}>
                         <IconAndText 
-                            text="Stop Following" // or add artist
+                            text={!isFollowingArtist ? "Follow" : "Stop Following"} // or add artist
+                            onPress={() => setisFollowingArtist((prev) => !prev)}
+                        />
+                        <IconAndText 
+                            text="Don't play this artist" // remove from favourite artist
                             onPress={() => console.log("hi")}
                         />
                         <IconAndText 
-                            text="Don't play this artist" // or add artist
+                            text="Share" // deep link to share link
                             onPress={() => console.log("hi")}
                         />
                         <IconAndText 
-                            text="Share" // or add artist
+                            text="Go to radio" // navigate to radio screen
                             onPress={() => console.log("hi")}
                         />
-                        <IconAndText 
-                            text="Go to radio" // or add artist
-                            onPress={() => console.log("hi")}
-                        />
-                        {/* <IconAndText 
-                            text="Don't play this artist" // or add artist
-                            onPress={() => console.log("hi")}
-                            icon={<MaterialCommunityIcons name="cancel" size={24} color="black" />}
-                        />
-                        <IconAndText 
-                            text="Share" // or add artist
-                            onPress={() => console.log("hi")}
-                            icon={<Entypo name="share-alternative" size={24} color="black" />}
-                        />
-                        <IconAndText 
-                            text="Go to radio" // or add artist
-                            onPress={() => console.log("hi")}
-                            icon={<Feather name="radio" size={24} color="black" />}
-                        /> */}
                     </VStack>
 
             </ScrollView>

@@ -4,11 +4,14 @@ import { Ionicons, SimpleLineIcons } from '@expo/vector-icons';
 import { Dispatch, useState } from "react";
 
 type ControlsProps = {
+    isFollowingArtist: boolean;
+    setisFollowingArtist: Dispatch<React.SetStateAction<boolean>>;
     setModalVisible: Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const ArtistScreenPlayerControls = ({ setModalVisible }: ControlsProps) => {
-    const [isFollowingArtist, setisFollowingArtist] = useState<boolean>(false);
+export const ArtistScreenPlayerControls = ({ 
+    isFollowingArtist, setisFollowingArtist, setModalVisible 
+}: ControlsProps) => {
 
     const handleFollowArtist = (artist: any) => {
         // add or remove artist data in cache under "favourite-artists"

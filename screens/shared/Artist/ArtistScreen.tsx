@@ -10,7 +10,7 @@ import { QueryCache, useQuery } from "@tanstack/react-query";
 
 import { ArtistScreenProps } from "./artistScreen.types";
 import { getArtistTopTracks } from "../../../api/artist/ArtistsAPI";
-import { ArtistTopTracks } from "./ArtistTopTracks";
+import ArtistTopTracks from "./ArtistTopTracks";
 import { ArtistScreenPlayerControls } from "./PlayerControls";
 import { ArtistScreenBgImage } from "./ArtistScreenBgImage";
 import { ArtistScreenModal } from "./ArtistScreenModal";
@@ -18,6 +18,7 @@ import { useState } from "react";
 
 
 export const ArtistScreen = ({ navigation, route }: ArtistScreenProps) => {
+    const [ isFollowingArtist, setisFollowingArtist ] = useState<boolean>(true);
     const [ modalVisible, setModalVisible ] = useState<boolean>(false);
 
     const {
@@ -39,7 +40,7 @@ export const ArtistScreen = ({ navigation, route }: ArtistScreenProps) => {
 
     // const queries = queryCache.find({ queryKey: });
     // if not in cache make a requests
-    const { data: topArtistTracks, isFetched, isLoading, isError } = useQuery({
+    const { data: topArtistTracks, isFetched, isLoading, isError, error } = useQuery({
         queryKey: [`${name}-top-tracks`, id],
         queryFn: () => getArtistTopTracks(id),
         cacheTime: 36000,
@@ -56,6 +57,10 @@ export const ArtistScreen = ({ navigation, route }: ArtistScreenProps) => {
         <Text style={{ color: '#fff'}}>loading</Text>
     }
     // console.log(topArtistTracks[0]);
+
+    if (isError) {
+        // return <Text style={{ color: "#fff" }}>{error.message as string}</Text>
+    }
 
     return (
         <SafeAreaView 
@@ -82,7 +87,11 @@ export const ArtistScreen = ({ navigation, route }: ArtistScreenProps) => {
                         {followers.total.toLocaleString()} followers 
                     </Text>
 
-                    <ArtistScreenPlayerControls setModalVisible={setModalVisible} />
+                    <ArtistScreenPlayerControls 
+                        isFollowingArtist={isFollowingArtist}
+                        setModalVisible={setModalVisible} 
+                        setisFollowingArtist={setisFollowingArtist}
+                    />
 
                     <View style={{ marginTop: 20}}>
                         <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fff'}}>
@@ -91,6 +100,7 @@ export const ArtistScreen = ({ navigation, route }: ArtistScreenProps) => {
                         <ArtistTopTracks tracks={topArtistTracks} />
                     </View>
                 </View>
+
             </ScrollView>
 
             <ArtistScreenModal 
@@ -98,6 +108,9 @@ export const ArtistScreen = ({ navigation, route }: ArtistScreenProps) => {
                 imageSource={images[0].url}
                 artistName={name}
                 onCloseModal={() => setModalVisible((prev) => !prev)}
+                isFollowingArtist={isFollowingArtist}
+                setisFollowingArtist={setisFollowingArtist}
+                // setModalVisible={setModalVisible}
             />
         </SafeAreaView>
     )
