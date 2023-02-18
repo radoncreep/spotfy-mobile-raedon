@@ -13,9 +13,13 @@ import { getArtistTopTracks } from "../../../api/artist/ArtistsAPI";
 import { ArtistTopTracks } from "./ArtistTopTracks";
 import { ArtistScreenPlayerControls } from "./PlayerControls";
 import { ArtistScreenBgImage } from "./ArtistScreenBgImage";
+import { ArtistScreenModal } from "./ArtistScreenModal";
+import { useState } from "react";
 
 
 export const ArtistScreen = ({ navigation, route }: ArtistScreenProps) => {
+    const [ modalVisible, setModalVisible ] = useState<boolean>(false);
+
     const {
         id,
         images,
@@ -78,7 +82,7 @@ export const ArtistScreen = ({ navigation, route }: ArtistScreenProps) => {
                         {followers.total.toLocaleString()} followers 
                     </Text>
 
-                    <ArtistScreenPlayerControls />
+                    <ArtistScreenPlayerControls setModalVisible={setModalVisible} />
 
                     <View style={{ marginTop: 20}}>
                         <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#fff'}}>
@@ -88,6 +92,13 @@ export const ArtistScreen = ({ navigation, route }: ArtistScreenProps) => {
                     </View>
                 </View>
             </ScrollView>
+
+            <ArtistScreenModal 
+                isVisible={modalVisible} 
+                imageSource={images[0].url}
+                artistName={name}
+                onCloseModal={() => setModalVisible((prev) => !prev)}
+            />
         </SafeAreaView>
     )
 }
