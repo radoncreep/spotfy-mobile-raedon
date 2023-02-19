@@ -1,8 +1,13 @@
-import { Pressable, StyleSheet, TextInput, View } from "react-native";
+import { Pressable, StyleSheet, TextInput } from "react-native";
 import { Feather } from '@expo/vector-icons';
+import { Dispatch } from "react";
 
 
-export const SearchInput = () => {
+type SearchInputProps = {
+    setIsVisible: Dispatch<React.SetStateAction<boolean>>;
+}
+
+export const SearchInput = ({ setIsVisible }: SearchInputProps) => {
     return (
         <Pressable 
             onPress={() => console.log("search")}
@@ -14,6 +19,11 @@ export const SearchInput = () => {
                 placeholder="What do you want to listen to?"
                 placeholderTextColor="#000"
                 style={styles.input}
+                // editable={false}
+                onFocus={() => {
+                    console.log('focused');
+                    setIsVisible(true);
+                }}
             />
         </Pressable>
     )
