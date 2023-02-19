@@ -1,11 +1,17 @@
 import { HStack } from "native-base";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons, SimpleLineIcons } from '@expo/vector-icons';
-import { useState } from "react";
+import { Dispatch, useState } from "react";
 
+type ControlsProps = {
+    isFollowingArtist: boolean;
+    setisFollowingArtist: Dispatch<React.SetStateAction<boolean>>;
+    setModalVisible: Dispatch<React.SetStateAction<boolean>>;
+}
 
-export const ArtistScreenPlayerControls = () => {
-    const [isFollowingArtist, setisFollowingArtist] = useState<boolean>(false);
+export const ArtistScreenPlayerControls = ({ 
+    isFollowingArtist, setisFollowingArtist, setModalVisible 
+}: ControlsProps) => {
 
     const handleFollowArtist = (artist: any) => {
         // add or remove artist data in cache under "favourite-artists"
@@ -38,7 +44,7 @@ export const ArtistScreenPlayerControls = () => {
                     </Text>
                 </Pressable>
 
-                <Pressable onPress={() => handleFollowArtist("")}>
+                <Pressable onPress={() => setModalVisible((prev) => !prev)}>
                     <SimpleLineIcons name="options" size={22} style={styles.inactiveIcon} />
                 </Pressable>
 

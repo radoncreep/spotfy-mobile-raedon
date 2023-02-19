@@ -12,7 +12,17 @@ const Stack = createNativeStackNavigator<SearchNavigationParamList>();
 
 export const SearchNavigation = () => {
     return (
-        <Stack.Navigator>
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+                contentStyle: {
+                    backgroundColor: '#121212'
+                },
+                animationDuration: 0,
+                animation: "default",
+                animationTypeForReplace: "pop"
+            }}
+        >
             <Stack.Screen name="search" component={SearchScreen} />
             {/* <Stack.Screen name="" component={} /> */}
         </Stack.Navigator>

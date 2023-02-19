@@ -11,7 +11,7 @@ Reactotron
   .configure({
     name: "React Native Demo",
     // host: '172.20.10.2', // when using expo use machine's ip address
-    host: '192.168.0.156',
+    host: '192.168.0.140',
     onDisconnect: () => {
       queryClientManager.unsubscribe();
     }

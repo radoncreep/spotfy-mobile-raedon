@@ -1,27 +1,19 @@
-import { useCallback, useState } from "react";
+import { memo, useCallback, useState } from "react";
 import { HStack, VStack } from "native-base";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 
 import { AppImage, ExplicitIcons } from "../../../components";
 import { TracksResponse } from "../../../types/tracks";
-import { ArtistScreenProps } from "./artistScreen.types";
 
 
 interface ArtistTopTracksProps {
     tracks: TracksResponse['tracks'];
 }
 
-
-export const ArtistTopTracks = (
-    { tracks, 
-        // navigation, route 
-    }: ArtistTopTracksProps
-) => {
+const ArtistTopTracks = ({ tracks }: ArtistTopTracksProps) => {
     const [favorites, setFavorites] = useState<string[]>([]);
     const [playing, setPlaying] = useState<string>("");
-
-    console.log({ favorites })
 
     const handleSelectedAsFavourite = (id: string) => {
         setFavorites((prevState) => {
@@ -103,11 +95,10 @@ export const ArtistTopTracks = (
                         </Pressable>
                     </HStack>
                 </Pressable>
-
             ))}
         </View>
     )
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -125,3 +116,5 @@ const styles = StyleSheet.create({
         opacity: 0.6
     }
 })
+
+export default memo(ArtistTopTracks);

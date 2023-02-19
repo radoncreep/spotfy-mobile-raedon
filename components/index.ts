@@ -7,6 +7,8 @@ export { AppImage } from './core/AppImage';
 
 export { HomeScreenHeader } from './features/HomeScreenHeader';
 export { LibraryScreenHeader } from './features/LibraryScreenHeader';
+export { AppRainMeter } from './features/AppRainMeter';
+
 
 // TEMPLATES
 export { default as AppScreenHeader} from './templates/ScreenHeader';

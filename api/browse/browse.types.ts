@@ -1,8 +1,18 @@
-export interface ExternalUrls {
+import { Markets } from "../../types/markets";
+
+export type NewReleaseApiParams = {
+    country: Markets[keyof Markets];
+    limit: number;
+}
+
+export type CategoriesParams = NewReleaseApiParams & { locale: string };
+
+
+interface ExternalUrls {
     spotify: string;
 }
 
-export interface Artist {
+interface Artist {
     external_urls: ExternalUrls;
     href: string;
     id: string;
@@ -11,11 +21,11 @@ export interface Artist {
     uri: string;
 }
 
-export interface ExternalUrls2 {
+interface ExternalUrls2 {
     spotify: string;
 }
 
-export interface Image {
+interface Image {
     height: number;
     url: string;
     width: number;
@@ -49,4 +59,31 @@ export interface NewReleaseAlbums {
 
 export interface NewReleaseResponse {
     albums: NewReleaseAlbums;
+}
+
+interface Icon {
+    height?: number;
+    url: string;
+    width?: number;
+}
+
+export interface CategoriesItem {
+    href: string;
+    icons: Icon[];
+    id: string;
+    name: string;
+}
+
+export interface Categories {
+    href: string;
+    items: CategoriesItem[];
+    limit: number;
+    next: string;
+    offset: number;
+    previous?: any;
+    total: number;
+}
+
+export interface CategoriesResponse {
+    categories: Categories;
 }
