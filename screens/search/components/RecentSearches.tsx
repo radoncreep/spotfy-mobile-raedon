@@ -2,6 +2,7 @@ import { HStack, VStack } from "native-base";
 import { FlatList, Image, ListRenderItemInfo, Pressable, StyleSheet, Text, View } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 
+import ArtistDefaultImage from "../../../assets/images/artistDefaultImage.jpg";
 
 type DumProps = {
     id: string,
@@ -19,6 +20,7 @@ const SearchItem = ({ index, item }: SearchItemProps) => {
         <View style={styles.itemContainer}>
             <HStack space={4} alignItems="center">
                 <Image 
+                    defaultSource={ArtistDefaultImage}
                     source={{ uri: item.data.imageUrl }}
                     style={{
                         width: 50,

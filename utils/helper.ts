@@ -30,6 +30,14 @@ export const isEmpty = <T>(arg: T): boolean => {
     if (Array.isArray(arg)) {
         return arg.length === 0;
     }
+
+    if (typeof(arg) == "string") {
+        return arg.length === 0;
+    }
+
+    if (typeof(arg) === "undefined") {
+        return true;
+    }
     // other type checks here
     return true;
 }
