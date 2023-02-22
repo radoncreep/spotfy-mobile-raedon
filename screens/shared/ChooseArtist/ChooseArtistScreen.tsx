@@ -22,13 +22,13 @@ import {
     AppTouchableButton, 
     ArtistAvatarListItem, 
     GreatPicksModal
-} from "../../components";
-import { getManyArtists } from "../../api/artist/ArtistsAPI";
-import { ViewSeperator } from "../../components/core/ViewSeperator";
+} from "../../../components";
+import { getManyArtists } from "../../../api/artist/ArtistsAPI";
+import { ViewSeperator } from "../../../components/core/ViewSeperator";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { OnboardStackParamList } from "../../types/stackScreen.types";
-import { AuthContext } from "../../store/Auth.context";
-import { mergeItemInCache, setItemInCache } from "../../utils/cache";
+import { OnboardStackParamList } from "../../../types/stackScreen.types";
+import { AuthContext } from "../../../store/Auth.context";
+import { mergeItemInCache, setItemInCache } from "../../../utils/cache";
 
 
 const ChooseArtistScreen = (

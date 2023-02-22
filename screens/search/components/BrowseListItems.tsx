@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import { AxiosError } from "axios";
 import { 
     Dimensions, 
     FlatList, 
@@ -11,7 +12,7 @@ import {
 
 import { CategoriesItem, CategoriesParams } from "../../../api/browse/browse.types";
 import { getCategories } from "../../../api/browse/BrowseAPI";
-import { AppLoader } from "../../../components";
+import { AppError, AppLoader, AppNoData } from "../../../components";
 import { ViewSeperator } from "../../../components/core/ViewSeperator";
 import { isEmpty } from "../../../utils/helper";
 
@@ -57,16 +58,14 @@ export const BrowseList = () => {
         cacheTime: TWENTY_FOUR_HRS
     });
 
-    if (!categoriesData) {
-        //
-    }
+    if (!categoriesData) return <AppNoData />;
 
-    if (isLoading) {
-        return <AppLoader />
-    }
+    if (isLoading) return <AppLoader />;
 
-    if (!error) {
-        //
+    if (error) {
+        const message = "Error fetching data.";
+        
+        return <AppError message={message} />
     }
 
     return (
