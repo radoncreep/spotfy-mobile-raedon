@@ -1,13 +1,21 @@
-import { useQuery } from "@tanstack/react-query"
-import { useState } from "react";
-import { FlatList, ImageBackground, ListRenderItemInfo, StyleSheet, Text, View } from "react-native"
-import { CategoriesItem, CategoriesParams } from "../../../api/browse/browse.types"
-import { getCategories } from "../../../api/browse/BrowseAPI"
-import { AppModal } from "../../../components";
+import { useQuery } from "@tanstack/react-query";
+import { 
+    Dimensions, 
+    FlatList, 
+    ImageBackground, 
+    ListRenderItemInfo, 
+    StyleSheet, 
+    Text, 
+    View 
+} from "react-native";
+
+import { CategoriesItem, CategoriesParams } from "../../../api/browse/browse.types";
+import { getCategories } from "../../../api/browse/BrowseAPI";
+import { AppLoader } from "../../../components";
 import { ViewSeperator } from "../../../components/core/ViewSeperator";
 import { isEmpty } from "../../../utils/helper";
-import { BrowseSearchModal } from "./BrowseSearchModal";
 
+const windowWidth = Dimensions.get("window").width;
 
 type BrowseItemProps = ListRenderItemInfo<CategoriesItem>;
 
@@ -19,7 +27,7 @@ const BrowseItem = ({ index, item }: BrowseItemProps) => {
         <ImageBackground 
             source={{ uri: isEmpty(icons) ? undefined : icons[0].url }} 
             style={{
-                width: 150,
+                width: Math.floor(windowWidth / 2) - 15,
                 height: 150,
                 padding: 8,
                 borderRadius: 100
@@ -41,7 +49,7 @@ export const BrowseList = () => {
 
     const TWENTY_FOUR_HRS = 24 * 3600 * 1000;
 
-    const { data: categoriesData, error, isFetching } = useQuery({
+    const { data: categoriesData, error, isFetching, isLoading } = useQuery({
         queryKey: ["browse-categories"],
         queryFn: () => getCategories(queryParams),
         select: (data) => data.categories.items,
@@ -53,8 +61,8 @@ export const BrowseList = () => {
         //
     }
 
-    if (!isFetching) {
-        //
+    if (isLoading) {
+        return <AppLoader />
     }
 
     if (!error) {
@@ -63,11 +71,6 @@ export const BrowseList = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.listHeader}>
-                Browse all
-            </Text>
-
-
             <FlatList 
                 data={categoriesData}
                 renderItem={(props) => (
@@ -77,6 +80,14 @@ export const BrowseList = () => {
                 numColumns={2}
                 columnWrapperStyle={{
                     justifyContent: "space-between"
+                }}
+                ListHeaderComponent={() => (
+                    <Text style={styles.listHeader}>
+                        Browse all
+                    </Text>
+                )}
+                ListHeaderComponentStyle={{
+                    paddingVertical: 10
                 }}
             />
         </View>
