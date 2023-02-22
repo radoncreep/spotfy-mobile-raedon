@@ -23,7 +23,7 @@ export const BrowseSearchModal = ({ isVisible, setIsVisible }: BrowseSearchModal
     const [debouncedSearchValue, setDebouncedSearchValue] = useState<SearchParams['searchQuery']>("");
 
     const queryFnParam: SearchParams = {
-        searchQuery: debouncedSearchValue,
+        searchQuery: searchValue,
         type: ["artist", "track", "album"],
         limit: 20,
         market: "NG" // get user location although api priotizes token location over this

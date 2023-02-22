@@ -4,7 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { OnboardScreen } from "../screens/onboarding/OnboardScreen";
 // import { SignupStackNavigator } from "./authentication/Signup";
 import { OnboardStackParamList } from "../types/stackScreen.types";
-import ChooseArtistScreen from "../screens/selection/ChooseArtistScreen";
+import ChooseArtistScreen from "../screens/shared/ChooseArtist/ChooseArtistScreen";
 import { DateOfBirthScreen, EmailScreen, GenderScreen, PasswordScreen, UsernameScreen } from "../screens/signup";
 import { AppScreenHeader } from "../components";
 
