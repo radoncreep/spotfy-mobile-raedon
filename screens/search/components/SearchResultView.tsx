@@ -1,11 +1,11 @@
 import { FlatList, ScrollView, StyleSheet, View } from "react-native";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
-import { getSearch } from "../../../api/search/searchAPI";
+import { PropsWithoutRef, useEffect, useState } from "react";
+
 import { AppLoader } from "../../../components";
 import { AppPill } from "../../../components";
-import { SearchAlbums, SearchArtists, SearchParams, SearchResponse, SearchTracks } from "../../../api/search/search.types";
-import { PropsWithoutRef, useEffect, useState } from "react";
+import { SearchResponse } from "../../../api/search/search.types";
 import { AlbumSearchView } from "./AlbumSearchView";
 import { isEmpty } from "../../../utils/helper";
 import { ArtistSearchFilterView } from "./ArtistSearchFilterView";
@@ -16,15 +16,6 @@ type SearchResultViewProps = {
     isLoading: boolean;
     error: any;
 };
-
-// const tabs = ["Top", "Artists", "Songs", "Albums", "Podcasts", "Genre"];
-type TopData = {
-    artists: SearchArtists,
-    albums: SearchAlbums,
-    tracks: SearchTracks
-}
-
-type FilterData = SearchArtists['items'] | SearchAlbums['items'] | SearchTracks['items']
 
 export const SearchResultView = ({ data, isLoading, error }: SearchResultViewProps) => {
     const [activeTag, setActiveTag] = useState<number>(0);
@@ -61,7 +52,10 @@ export const SearchResultView = ({ data, isLoading, error }: SearchResultViewPro
                                 color: activeTag === index ? "#000" : "#fff"
                             }}
                             containerStyle={{
-                                backgroundColor: activeTag === index ? "#57B65F" : "#282828" 
+                                backgroundColor: activeTag === index ? "#57B65F" : "#282828",
+                                paddingVertical: 10,
+                                paddingHorizontal: 20,
+                                borderRadius: 20 
                             }}
                             onPress={() => setActiveTag(index)}
                         /> 
@@ -73,7 +67,7 @@ export const SearchResultView = ({ data, isLoading, error }: SearchResultViewPro
                 <AlbumSearchView albumData={allData["albums"] }/>
             )}
 
-            {tags[activeTag].toLowerCase() === "artists" && (
+            {(tags[activeTag].toLowerCase() === "artists" && !isEmpty(allData["artists"])) && (
                 <ArtistSearchFilterView artistData={allData["artists"] }/>
             )}
 

@@ -27,7 +27,6 @@ export const getMonthName = (monthNumber: string): string => {
 }
 
 export const isEmpty = <T>(arg: T): boolean => {
-    console.log("typeof ", typeof arg)
     if (Array.isArray(arg)) {
         return arg.length === 0;
     }
