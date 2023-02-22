@@ -24,6 +24,8 @@ export const HomeScreen = ({ navigation, route }: HomeScreenStackNavigationProps
                     </View>
                 ))}
 
+                
+
                 {/* <NewReleaseSection navigation={navigation} route={route} />
 
                 <FavouriteArtistSection navigation={navigation} route={route} /> */}

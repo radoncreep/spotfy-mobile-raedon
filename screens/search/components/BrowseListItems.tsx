@@ -1,9 +1,12 @@
 import { useQuery } from "@tanstack/react-query"
+import { useState } from "react";
 import { FlatList, ImageBackground, ListRenderItemInfo, StyleSheet, Text, View } from "react-native"
 import { CategoriesItem, CategoriesParams } from "../../../api/browse/browse.types"
 import { getCategories } from "../../../api/browse/BrowseAPI"
+import { AppModal } from "../../../components";
 import { ViewSeperator } from "../../../components/core/ViewSeperator";
 import { isEmpty } from "../../../utils/helper";
+import { BrowseSearchModal } from "./BrowseSearchModal";
 
 
 type BrowseItemProps = ListRenderItemInfo<CategoriesItem>;

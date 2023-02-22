@@ -22,7 +22,6 @@ export const HomeNavigation = () => {
                 animation: "default",
                 animationTypeForReplace: "pop"
             }}
-            
         >
             <Stack.Screen name="HomeIndex" component={HomeScreen} />
             <Stack.Screen name="AlbumScreen" component={DetailsScreen} />
