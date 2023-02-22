@@ -25,22 +25,14 @@ export const BrowseSearchModal = ({ isVisible, setIsVisible }: BrowseSearchModal
     const queryFnParam: SearchParams = {
         searchQuery: debouncedSearchValue,
         type: ["artist", "track", "album"],
-        limit: 3,
+        limit: 20,
         market: "NG" // get user location although api priotizes token location over this
     }
 
     const { data: searchResult, isLoading, error, isFetching, refetch } = useQuery({
         queryKey: [`search-${searchValue}`],
         queryFn: () => getSearch(queryFnParam),
-        enabled: false,
-        // select: (data) => {
-        //     // transform data here
-        //     // return {
-        //     //     top: data,
-        //     //     aritst: data.artists,
-        //     //     albums: data.albums
-        //     // }
-        // }
+        enabled: false
     })
 
     console.log({isFetching, searchValue});
@@ -58,8 +50,12 @@ export const BrowseSearchModal = ({ isVisible, setIsVisible }: BrowseSearchModal
     useEffect(() => {
         if (!isEmpty(searchValue)) refetch();
     }, [searchValue, refetch])
-    
 
+    const handleCancelModal = () => {
+        setIsVisible(false);
+        setSearchValue("");
+    } 
+    
     return (
         <Modal 
             animationType="slide"
@@ -82,7 +78,7 @@ export const BrowseSearchModal = ({ isVisible, setIsVisible }: BrowseSearchModal
 
                     <Pressable 
                         style={{ marginLeft: 20 }}
-                        onPress={() => setIsVisible(false)}
+                        onPress={handleCancelModal}
                     >
                         <Text style={styles.text}>Cancel</Text>
                     </Pressable>

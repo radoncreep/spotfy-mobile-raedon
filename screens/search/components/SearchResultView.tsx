@@ -9,6 +9,7 @@ import { SearchResponse } from "../../../api/search/search.types";
 import { AlbumSearchView } from "./AlbumSearchView";
 import { isEmpty } from "../../../utils/helper";
 import { ArtistSearchFilterView } from "./ArtistSearchFilterView";
+import { TracksSearchResultView } from "./TracksSearchResultView";
 
 
 type SearchResultViewProps = {
@@ -69,6 +70,10 @@ export const SearchResultView = ({ data, isLoading, error }: SearchResultViewPro
 
             {(tags[activeTag].toLowerCase() === "artists" && !isEmpty(allData["artists"])) && (
                 <ArtistSearchFilterView artistData={allData["artists"] }/>
+            )}
+
+            {(tags[activeTag].toLowerCase() === "tracks" && !isEmpty(allData["tracks"])) && (
+                <TracksSearchResultView tracksData={allData["tracks"] }/>
             )}
 
         </View>
