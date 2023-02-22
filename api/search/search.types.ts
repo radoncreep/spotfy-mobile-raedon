@@ -4,7 +4,7 @@ interface ExternalUrls {
     spotify: string;
 }
 
-interface SearchArtist {
+export interface SearchArtist {
     external_urls: ExternalUrls;
     href: string;
     id: string;
@@ -34,7 +34,7 @@ interface SearchAlbumItem {
     uri: string;
 }
 
-interface SearchAlbums {
+export interface SearchAlbums {
     href: string;
     items: SearchAlbumItem[];
     limit: number;
@@ -62,7 +62,7 @@ interface SearchArtistItem {
     uri: string;
 }
 
-interface Artists {
+export interface SearchArtists {
     href: string;
     items: SearchArtistItem[];
     limit: number;
@@ -111,7 +111,7 @@ interface SearchTrackItem {
     uri: string;
 }
 
-interface SearchTracks {
+export interface SearchTracks {
     href: string;
     items: SearchTrackItem[];
     limit: number;
@@ -122,9 +122,9 @@ interface SearchTracks {
 }
 
 export interface SearchResponse {
-    albums?: SearchAlbums;
-    artists?: Artists;
-    tracks?: SearchTracks;
+    artists: SearchArtists;
+    albums: SearchAlbums;
+    tracks: SearchTracks;
 }
 
 export type SearchParams = {

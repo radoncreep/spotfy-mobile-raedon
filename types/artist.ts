@@ -13,3 +13,12 @@ export interface IArtist {
     type: string;
     uri: string;
 }
+
+export interface ArtistAsItem {
+    external_urls: ExternalUrls;
+    href: string;
+    id: string;
+    name: string;
+    type: string;
+    uri: string;
+}

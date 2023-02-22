@@ -6,7 +6,7 @@ import { BrowseRecentSearches } from "./RecentSearches";
 import { SearchParams, SearchResponse } from "../../../api/search/search.types";
 
 import { isEmpty } from "../../../utils/helper";
-import { SearchResultView } from "../sections/SearchResultView";
+import { SearchResultView } from "./SearchResultView";
 import { useQuery } from "@tanstack/react-query";
 import { getSearch } from "../../../api/search/searchAPI";
 
@@ -45,20 +45,18 @@ export const BrowseSearchModal = ({ isVisible, setIsVisible }: BrowseSearchModal
 
     console.log({isFetching, searchValue});
 
+    console.log("search res", isEmpty(searchResult))
+
     useEffect(() => {
         let timeoutId = setTimeout(() => {
             setSearchValue(debouncedSearchValue);
         }, 1000)
 
-        return () => {
-            clearTimeout(timeoutId)
-        }
+        return () => clearTimeout(timeoutId);
     }, [debouncedSearchValue]);
 
     useEffect(() => {
-        console.log({searchValue})
-        if (!isEmpty(searchValue))
-            refetch();
+        if (!isEmpty(searchValue)) refetch();
     }, [searchValue, refetch])
     
 
@@ -91,7 +89,8 @@ export const BrowseSearchModal = ({ isVisible, setIsVisible }: BrowseSearchModal
                 </View>
 
                 <View style={styles.modalBody}>
-                    { (isEmpty(searchValue) && isEmpty(searchResult)) ? <BrowseRecentSearches /> : 
+                    { (isEmpty(searchValue) || isEmpty(searchResult)) ? 
+                        <BrowseRecentSearches /> : 
                         <SearchResultView
                           data={searchResult as SearchResponse}  
                           isLoading={isLoading}
