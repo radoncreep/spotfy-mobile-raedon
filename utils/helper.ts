@@ -1,3 +1,4 @@
+import { PlatformOSType } from "react-native";
 import { ArtistAsItem, IArtist } from "../types/artist";
 
 
@@ -22,8 +23,16 @@ export const getArtistNameText = (artists: ArtistAsItem[]) => {
     return artistNames.join(", ");
 }
 
-export const getMonthName = (monthNumber: string): string => {
-    return new Date(`${+monthNumber + 1}`).toLocaleDateString(undefined, { month: 'long' });
+export const getMonthName = (monthNumber: string, platform: PlatformOSType): string => {
+    console.log({ monthNumber })
+    let months = [ "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December" ];
+
+    return months[+monthNumber];
+
+    // platform === "ios" ? 
+    //     new Date(`${+monthNumber}`).toLocaleDateString(undefined, { month: 'long' })
+    //     :
 }
 
 export const isEmpty = <T>(arg: T): boolean => {

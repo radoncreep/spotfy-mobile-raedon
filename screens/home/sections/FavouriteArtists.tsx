@@ -1,5 +1,4 @@
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
     FlatList,
     Image,
@@ -9,9 +8,10 @@ import {
     TouchableHighlight,
     View
 } from "react-native";
+
+import { HomeScreenStackNavigationProps } from "../../../navigation/home/home.navigation.types";
 import { IArtist } from "../../../types/artist";
 import { getItemFromCache } from "../../../utils/cache";
-import { HomeScreenStackNavigationProps } from "../homeScreen.types";
 
 
 type FavouriteArtistSectionProps = HomeScreenStackNavigationProps;
