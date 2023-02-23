@@ -13,7 +13,7 @@ import { NewReleaseItem } from "../../../api/browse/browse.types";
 import { firstCharToUpper, getArtistNameText } from "../../../utils/helper";
 import { Markets } from "../../../types/markets";
 import { getNewReleases } from "../../../api/browse/BrowseAPI";
-import { HomeScreenStackNavigationProps } from "../homeScreen.types";
+import { HomeScreenStackNavigationProps } from "../../../navigation/home/home.navigation.types";
 
 
 type NewReleaseSectionProps = HomeScreenStackNavigationProps;

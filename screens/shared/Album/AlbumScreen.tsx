@@ -1,23 +1,23 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { Image, ImageBackground, StyleSheet, Text, View, ScrollView, Pressable } from "react-native";
+import { Image, ImageBackground, StyleSheet, Text, View, ScrollView, Pressable, Platform } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Feather, Ionicons, MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 
 
-import { HomeNavigationParamList } from "../../types/stackScreen.types";
-import { useImageColor } from "../../hooks/useImageColor";
-import { firstCharToUpper, getMonthName } from "../../utils/helper";
+import { useImageColor } from "../../../hooks/useImageColor";
+import { firstCharToUpper, getMonthName } from "../../../utils/helper";
 import { HStack, VStack } from "native-base";
 import { useQuery } from "@tanstack/react-query";
-import { getArtist } from "../../api/artist/ArtistsAPI";
-import { getAlbum } from "../../api/album/albumAPI";
-import { AlbumPlaylist } from "../../components";
+import { getArtist } from "../../../api/artist/ArtistsAPI";
+import { getAlbum } from "../../../api/album/albumAPI";
+import { AlbumPlaylist } from "../../../components";
+import { HomeNavigationParamList } from "../../../navigation/home/home.navigation.types";
 
 
 
-export const DetailsScreen = ({ navigation, route }: 
+export const AlbumScreen = ({ navigation, route }: 
     NativeStackScreenProps<HomeNavigationParamList, 'AlbumScreen'>
 ) => {
     const insets = useSafeAreaInsets();
@@ -57,9 +57,7 @@ export const DetailsScreen = ({ navigation, route }:
             style={styles.container} 
             edges={['right', 'left', ]} 
         >
-            <ScrollView 
-            // style={{ backgroundColor: 'orange' }}
-            >
+            <ScrollView>
                 <LinearGradient
                     colors={['orange', '#121212']}
                     locations={[0, 0.55]}
@@ -162,7 +160,7 @@ export const DetailsScreen = ({ navigation, route }:
                             <Text 
                                 style={{ fontSize: 12, fontWeight: '600', color: '#fff', opacity: .9 }}
                             >
-                                {`${getMonthName(release_month)} ${release_day}, ${release_year}`}
+                                {`${getMonthName(release_month, Platform.OS)} ${release_day}, ${release_year}`}
                             </Text>
                         </View>
 

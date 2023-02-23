@@ -1,10 +1,10 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
-import { HomeNavigationParamList } from "../../types/stackScreen.types";
 import { HomeScreen } from "../../screens/home/HomeScreen";
 
-import { DetailsScreen } from "../../screens/Details/DetailsScreen";
+import { AlbumScreen } from "../../screens/shared/Album/AlbumScreen";
 import { ArtistScreen } from "../../screens/shared/Artist/ArtistScreen";
+import { HomeNavigationParamList } from "./home.navigation.types";
 
 
 const Stack = createNativeStackNavigator<HomeNavigationParamList>();
@@ -24,7 +24,7 @@ export const HomeNavigation = () => {
             }}
         >
             <Stack.Screen name="HomeIndex" component={HomeScreen} />
-            <Stack.Screen name="AlbumScreen" component={DetailsScreen} />
+            <Stack.Screen name="AlbumScreen" component={AlbumScreen} />
             <Stack.Screen name="ArtistScreen" component={ArtistScreen} />
         </Stack.Navigator>
     )
