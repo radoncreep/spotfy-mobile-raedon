@@ -47,7 +47,7 @@ const GreatPicksModal = ({ pickedArtists, handleNavigation }: GreatPicksModalPro
     useEffect(() => {
         setTimeout(() => {
             setPreviewed(true);
-        }, 2000)
+        }, 1000);
     }, []); 
 
     return (
@@ -67,23 +67,27 @@ const GreatPicksModal = ({ pickedArtists, handleNavigation }: GreatPicksModalPro
                                 
                             }}
                         >
-                            <View style={{ flexDirection: 'row', marginBottom: 10, justifyContent: 'center'}}>
-                                {pickedArtists.map((artist, index) => {
+                            <View style={{ flexDirection: 'row', marginBottom: 10, justifyContent: 'center', alignItems: "baseline"}}>
+                                {pickedArtists.slice(0, Math.min(pickedArtists.length, 4)).map((artist, index) => {
                                     return (
                                         <View key={index} style={{ width: 40, height: 60,  }} >
-                                            { index < 4 &&
-                                                <Image 
-                                                    source={{ uri: artist.images[0].url }} 
-                                                    style={{
-                                                        width: 60,
-                                                        height: 60,
-                                                        borderRadius: 30
-                                                    }}
-                                                />
-                                            }
+                                            <Image 
+                                                source={{ uri: artist.images[0].url }} 
+                                                style={{
+                                                    width: 60,
+                                                    height: 60,
+                                                    borderRadius: 30
+                                                }}
+                                            />
                                         </View>
                                     )
                                 })}
+
+                                {pickedArtists.length > 4 && (
+                                    <View style={{ paddingLeft: 20}}>
+                                        <Text style={{ color: "#fff", fontSize: 30, opacity: 0.8}}>....</Text>
+                                    </View>
+                                )}
                             </View>
                             
                             <Text style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>Great Picks!</Text>
