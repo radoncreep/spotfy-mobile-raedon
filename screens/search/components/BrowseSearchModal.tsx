@@ -9,6 +9,7 @@ import { isEmpty } from "../../../utils/helper";
 import { SearchResultView } from "./SearchResultView";
 import { useQuery } from "@tanstack/react-query";
 import { getSearch } from "../../../api/search/searchAPI";
+import { AppLoader } from "../../../components";
 
 
 interface BrowseSearchModalProps extends ModalProps {
@@ -39,18 +40,19 @@ export const BrowseSearchModal = ({ isVisible, setIsVisible }: BrowseSearchModal
 
     console.log("search res", isEmpty(searchResult))
 
+    
     useEffect(() => {
         let timeoutId = setTimeout(() => {
             setSearchValue(debouncedSearchValue);
         }, 1000)
-
+        
         return () => clearTimeout(timeoutId);
     }, [debouncedSearchValue]);
-
+    
     useEffect(() => {
         if (!isEmpty(searchValue)) refetch();
     }, [searchValue, refetch])
-
+    
     const handleCancelModal = () => {
         setIsVisible(false);
         setSearchValue("");
@@ -85,8 +87,11 @@ export const BrowseSearchModal = ({ isVisible, setIsVisible }: BrowseSearchModal
                 </View>
 
                 <View style={styles.modalBody}>
-                    { (isEmpty(searchValue) || isEmpty(searchResult)) ? 
-                        <BrowseRecentSearches /> : 
+                    { (isEmpty(searchValue) && isEmpty(searchResult)) && <BrowseRecentSearches /> }
+
+                    { (!isEmpty(searchValue) && isLoading) && <AppLoader /> }
+
+                    { !isEmpty(searchResult) &&
                         <SearchResultView
                           data={searchResult as SearchResponse}  
                           isLoading={isLoading}
