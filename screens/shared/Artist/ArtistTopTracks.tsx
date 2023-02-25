@@ -52,7 +52,7 @@ const ArtistTopTracks = ({ tracks }: ArtistTopTracksProps) => {
                             imageType="album"
                         />
 
-                        <VStack alignItems="flex-start" flex={1}>
+                        <VStack alignItems="flex-start" flex={1} space={1}>
                             <Text  
                                 style={{
                                     color: playing === track.id ? "#57B65F" : "#fff",
@@ -62,7 +62,7 @@ const ArtistTopTracks = ({ tracks }: ArtistTopTracksProps) => {
                                 {track.name} {" "}
                             </Text>
 
-                            <HStack space={2}>
+                            <HStack space={2} alignItems="center">
                                 {track.explicit && <ExplicitIcons />}
 
                                 <Text style={styles.textStyles}>

@@ -22,9 +22,3 @@ export type OnboardStackParamList = {
     Email: undefined;
     ChooseArtistScreen: {email: string, password: string, dob: string, gender: string, username: string } | undefined;
 }
-
-export type HomeNavigationParamList = {
-    HomeIndex: undefined;
-    AlbumScreen: NewReleaseItem;
-    ArtistScreen: IArtistResponse
-}

@@ -1,11 +1,14 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { IArtistResponse } from "../../api/artist/artist.types";
 
 import { HomeScreen } from "../../screens/home/HomeScreen";
 import { SearchScreen } from "../../screens/search/SearchScreen";
+import { ArtistScreen } from "../../screens/shared/Artist/ArtistScreen";
 
 
-type SearchNavigationParamList = {
-    search: undefined
+export type SearchNavigationParamList = {
+    SearchIndex: undefined
+    ArtistScreen: IArtistResponse;
 }
 
 const Stack = createNativeStackNavigator<SearchNavigationParamList>();
@@ -23,7 +26,8 @@ export const SearchNavigation = () => {
                 animationTypeForReplace: "pop"
             }}
         >
-            <Stack.Screen name="search" component={SearchScreen} />
+            <Stack.Screen name="SearchIndex" component={SearchScreen} />
+            <Stack.Screen name="ArtistScreen" component={ArtistScreen} />
             {/* <Stack.Screen name="" component={} /> */}
         </Stack.Navigator>
     )

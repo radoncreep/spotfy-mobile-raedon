@@ -1,5 +1,5 @@
 import { Dispatch, useEffect, useMemo, useState } from "react";
-import { Modal, ModalProps, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Dimensions, Modal, ModalProps, Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 import { Feather } from '@expo/vector-icons';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { BrowseRecentSearches } from "./RecentSearches";
@@ -9,15 +9,16 @@ import { isEmpty } from "../../../utils/helper";
 import { SearchResultView } from "./SearchResultView";
 import { useQuery } from "@tanstack/react-query";
 import { getSearch } from "../../../api/search/searchAPI";
+import { AppLoader } from "../../../components";
 
 
-interface BrowseSearchModalProps extends ModalProps {
-    isVisible: boolean;
+interface BrowseSearchModalProps {
     setIsVisible: Dispatch<React.SetStateAction<boolean>>;
 }
 
+const windowWidth = Dimensions.get("window").width;
 
-export const BrowseSearchModal = ({ isVisible, setIsVisible }: BrowseSearchModalProps) => {
+export const BrowseSearchModal = ({ setIsVisible }: BrowseSearchModalProps) => {
     const insets = useSafeAreaInsets();
     const [searchValue, setSearchValue] = useState<SearchParams['searchQuery']>("");
     const [debouncedSearchValue, setDebouncedSearchValue] = useState<SearchParams['searchQuery']>("");
@@ -39,35 +40,36 @@ export const BrowseSearchModal = ({ isVisible, setIsVisible }: BrowseSearchModal
 
     console.log("search res", isEmpty(searchResult))
 
+    
     useEffect(() => {
         let timeoutId = setTimeout(() => {
             setSearchValue(debouncedSearchValue);
         }, 1000)
-
+        
         return () => clearTimeout(timeoutId);
     }, [debouncedSearchValue]);
-
+    
     useEffect(() => {
         if (!isEmpty(searchValue)) refetch();
     }, [searchValue, refetch])
-
+    
     const handleCancelModal = () => {
         setIsVisible(false);
         setSearchValue("");
     } 
     
     return (
-        <Modal 
-            animationType="slide"
-            visible={isVisible}
-        >
+        // <Modal 
+        //     animationType="slide"
+        //     visible={isVisible}
+        // >
             <View style={[styles.container]}>
                 <View style={[styles.modalHeader,  { paddingTop: insets.top + 10 }]}>
                     <View style={styles.inputContainer}>
                         <Feather name="search" size={18} color="#fff" /> 
 
                         <TextInput 
-                            autoFocus={isVisible}
+                            // autoFocus={isVisible}
                             placeholder="What do you want to listen to?"
                             placeholderTextColor="#B3B3B3"
                             style={styles.input}
@@ -77,7 +79,7 @@ export const BrowseSearchModal = ({ isVisible, setIsVisible }: BrowseSearchModal
                     </View>
 
                     <Pressable 
-                        style={{ marginLeft: 20 }}
+                        style={{ marginLeft: 20, width: windowWidth * (22/100) }}
                         onPress={handleCancelModal}
                     >
                         <Text style={styles.text}>Cancel</Text>
@@ -85,17 +87,21 @@ export const BrowseSearchModal = ({ isVisible, setIsVisible }: BrowseSearchModal
                 </View>
 
                 <View style={styles.modalBody}>
-                    { (isEmpty(searchValue) || isEmpty(searchResult)) ? 
-                        <BrowseRecentSearches /> : 
+                    { (isEmpty(searchValue) && isEmpty(searchResult)) && <BrowseRecentSearches /> }
+
+                    { (!isEmpty(searchValue) && isLoading) && <AppLoader /> }
+
+                    { !isEmpty(searchResult) &&
                         <SearchResultView
                           data={searchResult as SearchResponse}  
                           isLoading={isLoading}
                           error={error}
+                        //   setIsVisible={setIsVisible}
                         />
                     } 
                 </View>
             </View>
-        </Modal>
+        // </Modal>
     )
 }
 
@@ -109,7 +115,8 @@ const styles = StyleSheet.create({
         color: '#fff',
         fontWeight: "600",
         marginLeft: 4,
-        paddingHorizontal: 4
+        paddingHorizontal: 4,
+        width: "100%",
     },
     inputContainer: {
         backgroundColor: '#3d3d3d',
@@ -117,7 +124,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         paddingVertical: 6,
         borderRadius: 8,
-        flexGrow: 1,
+        width: windowWidth * (78/100),
+        overflow: "hidden"
     },
     modalBody: {
         paddingHorizontal: 10,

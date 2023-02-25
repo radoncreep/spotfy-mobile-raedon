@@ -1,7 +1,7 @@
 import { VStack } from "native-base"
 import { useState } from "react"
 import { StyleSheet, View } from "react-native"
-import { SafeAreaView } from "react-native-safe-area-context"
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import { BrowseList } from "./components/BrowseListItems"
 import { BrowseSearchModal } from "./components/BrowseSearchModal"
 
@@ -10,30 +10,38 @@ import { SearchScreenHeader } from "./components/SearchScreenHeader"
 
 
 export const SearchScreen = () => {
+    const insets = useSafeAreaInsets();
+
     const [ isVisible, setIsVisible ] = useState<boolean>(false);
 
     return (
-        <SafeAreaView style={styles.container}>
-            <VStack space={4} flex={1} pb={20}>
-                <SearchScreenHeader />
+        <SafeAreaView style={styles.container} edges={["right"]}>
+            {!isVisible ? (
+                <View style={{ paddingTop: insets.top + 10, flex: 1, paddingHorizontal: 10 }}>
+                    <VStack space={4} flex={1} pb={20}>
+                        <SearchScreenHeader />
 
-                <SearchInput setIsVisible={setIsVisible}/>
+                        <SearchInput setIsVisible={setIsVisible}/>
 
-                <BrowseList />
-            </VStack>
+                        <BrowseList />
+                    </VStack>
+                </View>
+            ): 
 
-            <BrowseSearchModal
-                isVisible={isVisible}
-                setIsVisible={setIsVisible}
-            />
+            (
+                <BrowseSearchModal setIsVisible={setIsVisible}/>
+            )            
+            }
+
         </SafeAreaView>       
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        paddingHorizontal: 10,
-        paddingTop: 20,
+        // paddingHorizontal: 10,
+        // paddingTop: 20,
         flex: 1,
+        // backgroundColor: "red"
     }
 })

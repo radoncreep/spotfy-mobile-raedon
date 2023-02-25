@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import { AxiosError } from "axios";
 import { 
     Dimensions, 
     FlatList, 
@@ -58,9 +57,9 @@ export const BrowseList = () => {
         cacheTime: TWENTY_FOUR_HRS
     });
 
-    if (!categoriesData) return <AppNoData />;
-
     if (isLoading) return <AppLoader />;
+
+    if (!categoriesData) return <AppNoData />;
 
     if (error) {
         const message = "Error fetching data.";
