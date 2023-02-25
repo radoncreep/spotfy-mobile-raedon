@@ -1,7 +1,7 @@
 import { FlatList, ScrollView, StyleSheet, View } from "react-native";
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 
-import { PropsWithoutRef, useEffect, useState } from "react";
+import { Dispatch, PropsWithoutRef, useEffect, useState } from "react";
 
 import { AppLoader } from "../../../components";
 import { AppPill } from "../../../components";
@@ -69,7 +69,7 @@ export const SearchResultView = ({ data, isLoading, error }: SearchResultViewPro
             )}
 
             {(tags[activeTag].toLowerCase() === "artists" && !isEmpty(allData["artists"])) && (
-                <ArtistSearchFilterView artistData={allData["artists"] }/>
+                <ArtistSearchFilterView artistData={allData["artists"]} />
             )}
 
             {(tags[activeTag].toLowerCase() === "tracks" && !isEmpty(allData["tracks"])) && (

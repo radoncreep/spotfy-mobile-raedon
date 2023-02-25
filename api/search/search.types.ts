@@ -49,7 +49,7 @@ interface Followers {
     total: number;
 }
 
-interface SearchArtistItem {
+export interface SearchArtistItem {
     external_urls: ExternalUrls;
     followers: Followers;
     genres: string[];

@@ -7,15 +7,17 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { QueryCache, useQuery } from "@tanstack/react-query";
 
-
-import { ArtistScreenProps } from "./artistScreen.types";
 import { getArtistTopTracks } from "../../../api/artist/ArtistsAPI";
 import ArtistTopTracks from "./ArtistTopTracks";
 import { ArtistScreenPlayerControls } from "./PlayerControls";
 import { ArtistScreenBgImage } from "./ArtistScreenBgImage";
 import { ArtistScreenModal } from "./ArtistScreenModal";
 import { useState } from "react";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { HomeNavigationParamList } from "../../../navigation/home/home.navigation.types";
 
+type ArtistScreenProps =  NativeStackScreenProps<
+    HomeNavigationParamList, 'ArtistScreen'>;
 
 export const ArtistScreen = ({ navigation, route }: ArtistScreenProps) => {
     const [ isFollowingArtist, setisFollowingArtist ] = useState<boolean>(true);

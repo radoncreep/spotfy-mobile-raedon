@@ -2,21 +2,34 @@ import { FlatList, HStack } from "native-base";
 import { Dimensions, Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 
-import { SearchArtists } from "../../../api/search/search.types";
+import { SearchArtistItem, SearchArtists } from "../../../api/search/search.types";
 import { ViewSeperator } from "../../../components/core/ViewSeperator";
 import ArtistDefaultImage from "../../../assets/images/artistDefaultImage.jpg";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { SearchNavigationParamList } from "../../../navigation/search/SearchNavigation";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { Dispatch } from "react";
 
 
 type Props = {
-    artistData: SearchArtists['items']
+    artistData: SearchArtists['items'];
 }
 
 const windowWidth = Dimensions.get("window").width;
 
-export const ArtistSearchFilterView = ({artistData}: Props) => {
+export const ArtistSearchFilterView = ({ artistData }: Props) => {
+    // const navigation = useNavigation<NavigationProp<SearchNavigationParamList, 'SearchIndex'>>();
+    const navigation = useNavigation<
+        NativeStackNavigationProp<SearchNavigationParamList>
+    >();
+
+
     console.log({ artistData })
-    const handleNavigation = () => {
+
+    const handleNavigation = (item: SearchArtistItem) => {
         // navigate
+        navigation.navigate('ArtistScreen', {...item});
+        return;
         // cache visited artiste under search
         console.log("navigate to artist screen")
     }
@@ -26,7 +39,7 @@ export const ArtistSearchFilterView = ({artistData}: Props) => {
             data={artistData}
             renderItem={({ item }) => (
                 <Pressable 
-                    onPress={handleNavigation}
+                    onPress={() => handleNavigation(item)}
                     style={styles.itemContainer}
                 >
                     <HStack style={styles.profile} space={4}>
