@@ -40,7 +40,7 @@ export const SearchResultView = ({ data, isLoading, error }: SearchResultViewPro
 
     return (
         <Animated.View 
-            // entering={SlideInUp.duration(5000)}
+            entering={SlideInDown.duration(400)}
             style={styles.container}
         >
             <ScrollView 
@@ -53,14 +53,16 @@ export const SearchResultView = ({ data, isLoading, error }: SearchResultViewPro
                             pillText={tag}
                             pillTextStyle={{
                                 fontSize: 14,
-                                fontWeight: '400',
-                                color: activeTag === index ? "#000" : "#fff"
+                                fontWeight: '500',
+                                color: activeTag === index ? "#000" : "#fff",
                             }}
                             containerStyle={{
                                 backgroundColor: activeTag === index ? "#57B65F" : "#282828",
-                                paddingVertical: 10,
+                                height: 30,
                                 paddingHorizontal: 20,
-                                borderRadius: 20 
+                                borderRadius: 20, 
+                                justifyContent: "center",
+                                alignItems: "center"
                             }}
                             onPress={() => setActiveTag(index)}
                         /> 

@@ -27,7 +27,7 @@ export const BrowseSearchModal = ({ setIsVisible }: BrowseSearchModalProps) => {
     const queryFnParam: SearchParams = {
         searchQuery: searchValue,
         type: ["artist", "track", "album"],
-        limit: 20,
+        limit: 1,
         market: "NG" // get user location although api priotizes token location over this
     }
 
