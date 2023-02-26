@@ -10,6 +10,7 @@ import { AlbumSearchView } from "./AlbumSearchView";
 import { isEmpty } from "../../../utils/helper";
 import { ArtistSearchFilterView } from "./ArtistSearchFilterView";
 import { TracksSearchResultView } from "./TracksSearchResultView";
+import Animated, { SlideInDown, SlideInUp } from "react-native-reanimated";
 
 
 type SearchResultViewProps = {
@@ -38,7 +39,10 @@ export const SearchResultView = ({ data, isLoading, error }: SearchResultViewPro
 
 
     return (
-        <View style={styles.container}>
+        <Animated.View 
+            // entering={SlideInUp.duration(5000)}
+            style={styles.container}
+        >
             <ScrollView 
                 horizontal
                 contentContainerStyle={styles.pillsContainer}
@@ -76,7 +80,7 @@ export const SearchResultView = ({ data, isLoading, error }: SearchResultViewPro
                 <TracksSearchResultView tracksData={allData["tracks"] }/>
             )}
 
-        </View>
+        </Animated.View>
     )
 }
 

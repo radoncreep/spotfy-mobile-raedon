@@ -10,6 +10,7 @@ import { SearchResultView } from "./SearchResultView";
 import { useQuery } from "@tanstack/react-query";
 import { getSearch } from "../../../api/search/searchAPI";
 import { AppLoader } from "../../../components";
+import Animated, { SlideInDown, SlideInRight, SlideInUp, SlideOutDown, SlideOutUp } from "react-native-reanimated";
 
 
 interface BrowseSearchModalProps {
@@ -59,49 +60,46 @@ export const BrowseSearchModal = ({ setIsVisible }: BrowseSearchModalProps) => {
     } 
     
     return (
-        // <Modal 
-        //     animationType="slide"
-        //     visible={isVisible}
-        // >
-            <View style={[styles.container]}>
-                <View style={[styles.modalHeader,  { paddingTop: insets.top + 10 }]}>
-                    <View style={styles.inputContainer}>
-                        <Feather name="search" size={18} color="#fff" /> 
+        <Animated.View style={[styles.container]}>
+            <Animated.View 
+                entering={SlideInUp}
+                style={[styles.modalHeader,  { paddingTop: insets.top + 10 }]}
+            >
+                <View style={styles.inputContainer}>
+                    <Feather name="search" size={18} color="#fff" /> 
 
-                        <TextInput 
-                            // autoFocus={isVisible}
-                            placeholder="What do you want to listen to?"
-                            placeholderTextColor="#B3B3B3"
-                            style={styles.input}
-                            onChangeText={(text) => setDebouncedSearchValue(text)}
-                            autoCapitalize="none"
-                        />
-                    </View>
-
-                    <Pressable 
-                        style={{ marginLeft: 20, width: windowWidth * (22/100) }}
-                        onPress={handleCancelModal}
-                    >
-                        <Text style={styles.text}>Cancel</Text>
-                    </Pressable>
+                    <TextInput 
+                        // autoFocus={isVisible}
+                        placeholder="What do you want to listen to?"
+                        placeholderTextColor="#B3B3B3"
+                        style={styles.input}
+                        onChangeText={(text) => setDebouncedSearchValue(text)}
+                        autoCapitalize="none"
+                    />
                 </View>
 
-                <View style={styles.modalBody}>
-                    { (isEmpty(searchValue) && isEmpty(searchResult)) && <BrowseRecentSearches /> }
+                <Pressable 
+                    style={{ marginLeft: 20, width: windowWidth * (22/100) }}
+                    onPress={handleCancelModal}
+                >
+                    <Text style={styles.text}>Cancel</Text>
+                </Pressable>
+            </Animated.View>
 
-                    { (!isEmpty(searchValue) && isLoading) && <AppLoader /> }
+            <Animated.View style={styles.modalBody}>
+                { (isEmpty(searchValue) && isEmpty(searchResult)) && <BrowseRecentSearches /> }
 
-                    { !isEmpty(searchResult) &&
-                        <SearchResultView
-                          data={searchResult as SearchResponse}  
-                          isLoading={isLoading}
-                          error={error}
-                        //   setIsVisible={setIsVisible}
-                        />
-                    } 
-                </View>
-            </View>
-        // </Modal>
+                { (!isEmpty(searchValue) && isLoading) && <AppLoader /> }
+
+                { !isEmpty(searchResult) &&
+                    <SearchResultView
+                        data={searchResult as SearchResponse}  
+                        isLoading={isLoading}
+                        error={error}
+                    />
+                } 
+            </Animated.View>
+        </Animated.View>
     )
 }
 
