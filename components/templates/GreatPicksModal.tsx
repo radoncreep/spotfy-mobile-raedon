@@ -46,7 +46,7 @@ const GreatPicksModal = ({ pickedArtists, handleNavigation }: GreatPicksModalPro
 
     useEffect(() => {
         setTimeout(() => {
-            setPreviewed(false);
+            setPreviewed(true);
         }, 1000);
     }, []); 
 

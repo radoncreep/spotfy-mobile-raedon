@@ -33,7 +33,7 @@ export const BrowseSearchModal = ({ setIsVisible }: BrowseSearchModalProps) => {
     const queryFnParam: SearchParams = {
         searchQuery: searchValue,
         type: ["artist", "track", "album"],
-        limit: 1,
+        limit: 20,
         market: "NG"
     }
 
