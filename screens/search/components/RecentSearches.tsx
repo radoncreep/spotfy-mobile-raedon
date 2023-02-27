@@ -46,6 +46,7 @@ const SearchItem = ({ index, item }: SearchItemProps) => {
 }
 
 export const BrowseRecentSearches = () => {
+    console.log("recent searches")
 
     // data gotten from cache
     const recentSearches: DumProps[] = [

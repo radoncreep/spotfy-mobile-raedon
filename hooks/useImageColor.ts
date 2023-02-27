@@ -1,21 +1,23 @@
 import { useEffect, useState } from 'react';
 import ImageColors from 'react-native-image-colors';
+import { ColorState } from '../types/shared';
 
 
-const initialState = {
+const initialState: ColorState = {
     colorOne: { value: '', name: '' },
     colorTwo: { value: '', name: '' },
     colorThree: { value: '', name: '' },
     colorFour: { value: '', name: '' },
-    rawResult: '',
-  }
-
+    // rawResult: '',
+}
 
 export const useImageColor = (uri: string) => {
     const [derivedImageColors, setDerivedImageColors] = useState(initialState);
     const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
+        let mounted = true;
+
         const fetchColors = async () => {
             try {
                 const result = await ImageColors.getColors(uri, {
@@ -27,8 +29,6 @@ export const useImageColor = (uri: string) => {
                     authorization: 'Basic 123',
                   },
                 })
-
-                console.log({ result })
           
                 switch (result.platform) {
                   case 'android':
@@ -37,7 +37,7 @@ export const useImageColor = (uri: string) => {
                       colorTwo: { value: result.dominant ?? "", name: 'dominant' },
                       colorThree: { value: result.vibrant ?? "", name: 'vibrant' },
                       colorFour: { value: result.darkVibrant ?? "", name: 'darkVibrant' },
-                      rawResult: JSON.stringify(result),
+                    //   rawResult: JSON.stringify(result),
                     })
                     break
                   case 'ios':
@@ -46,7 +46,7 @@ export const useImageColor = (uri: string) => {
                       colorTwo: { value: result.detail, name: 'detail' },
                       colorThree: { value: result.primary, name: 'primary' },
                       colorFour: { value: result.secondary, name: 'secondary' },
-                      rawResult: JSON.stringify(result),
+                    //   rawResult: JSON.stringify(result),
                     })
                     break
                   default:
@@ -59,7 +59,12 @@ export const useImageColor = (uri: string) => {
                 console.log({error})
             }
         }
-        fetchColors();
+        
+        if (mounted) {
+            fetchColors();
+        }
+
+        return () => { mounted = false; }
     }, [])
 
     if (loading) {

@@ -46,7 +46,7 @@ const GreatPicksModal = ({ pickedArtists, handleNavigation }: GreatPicksModalPro
 
     useEffect(() => {
         setTimeout(() => {
-            setPreviewed(true);
+            setPreviewed(false);
         }, 1000);
     }, []); 
 
@@ -60,14 +60,13 @@ const GreatPicksModal = ({ pickedArtists, handleNavigation }: GreatPicksModalPro
                     (
                         <View 
                             style={{ 
-                                backgroundColor: '#121212', 
+                                backgroundColor: 'red', 
                                 flex: 1,
                                 justifyContent: 'center',
                                 alignItems: 'center',
-                                
                             }}
                         >
-                            <View style={{ flexDirection: 'row', marginBottom: 10, justifyContent: 'center', alignItems: "baseline"}}>
+                            <View style={{ flexDirection: 'row', marginBottom: 10, justifyContent: 'center'}}>
                                 {pickedArtists.slice(0, Math.min(pickedArtists.length, 4)).map((artist, index) => {
                                     return (
                                         <View key={index} style={{ width: 40, height: 60,  }} >

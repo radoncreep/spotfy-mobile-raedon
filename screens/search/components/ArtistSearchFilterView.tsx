@@ -8,23 +8,24 @@ import ArtistDefaultImage from "../../../assets/images/artistDefaultImage.jpg";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { SearchNavigationParamList } from "../../../navigation/search/SearchNavigation";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { Dispatch } from "react";
+import { Dispatch, useEffect } from "react";
 import { useImageColor } from "../../../hooks/useImageColor";
+import { ColorState } from "../../../types/shared";
 
 
 type Props = {
     artistData: SearchArtists['items'];
+    handleColorSet: (arg: ColorState) => void;
 }
 
 const windowWidth = Dimensions.get("window").width;
 
 interface ItemProps extends ListRenderItemInfo<SearchArtistItem> {
     handleNavigation: (arg: SearchArtistItem) => void;
+    handleColorSet: Props['handleColorSet'];
 }
 
 const ArtistSearchItem = ({ handleNavigation, item }: ItemProps) => {
-    const artistImage = item.images[0].url;
-    const res = useImageColor(artistImage);
 
     return (
         <Pressable 
@@ -53,8 +54,16 @@ const ArtistSearchItem = ({ handleNavigation, item }: ItemProps) => {
     )
 }
 
-export const ArtistSearchFilterView = ({ artistData }: Props) => {
+export const ArtistSearchFilterView = ({ artistData, handleColorSet }: Props) => {
     const navigation = useNavigation<NativeStackNavigationProp<SearchNavigationParamList>>();
+    const topArtist = artistData[0];
+    const res = useImageColor(topArtist.images[0].url);
+
+    useEffect(() => {
+        handleColorSet(res);
+
+        return () => undefined;
+    }, [res]);
 
     const handleNavigation = (item: SearchArtistItem) => {
         // navigate
@@ -68,13 +77,15 @@ export const ArtistSearchFilterView = ({ artistData }: Props) => {
         <FlatList
             data={artistData}
             renderItem={(props) => (
-                <ArtistSearchItem {...props} handleNavigation={handleNavigation} />
+                <ArtistSearchItem 
+                    {...props} 
+                    handleNavigation={handleNavigation} 
+                    handleColorSet={handleColorSet}
+                />
             )}
             ItemSeparatorComponent={() => <ViewSeperator spacing={10} />}
             contentContainerStyle={{
-                paddingVertical: 16,
-                borderTopWidth: 1,
-                // borderTopColor: 
+                paddingVertical: 10,
             }}
         />
     )

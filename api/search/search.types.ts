@@ -19,7 +19,7 @@ interface Image {
     width: number;
 }
 
-interface SearchAlbumItem {
+export interface SearchAlbumItem {
     album_type: string;
     artists: SearchArtist[];
     external_urls: ExternalUrls;
@@ -72,7 +72,7 @@ export interface SearchArtists {
     total: number;
 }
 
-interface SearchTrackAlbum {
+export interface SearchTrackAlbum {
     album_type: string;
     artists: SearchArtist[];
     external_urls: ExternalUrls;
@@ -91,7 +91,7 @@ interface ExternalIds {
     isrc: string;
 }
 
-interface SearchTrackItem {
+export interface SearchTrackItem {
     album: SearchTrackAlbum;
     artists: SearchArtist[];
     disc_number: number;
