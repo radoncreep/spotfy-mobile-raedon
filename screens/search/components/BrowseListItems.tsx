@@ -14,6 +14,8 @@ import { getCategories } from "../../../api/browse/BrowseAPI";
 import { AppError, AppLoader, AppNoData } from "../../../components";
 import { ViewSeperator } from "../../../components/core/ViewSeperator";
 import { isEmpty } from "../../../utils/helper";
+import AlbumDefaultImage from "../../../assets/images/albumDefaultImage.png"
+
 
 const windowWidth = Dimensions.get("window").width;
 
@@ -25,6 +27,7 @@ const BrowseItem = ({ index, item }: BrowseItemProps) => {
     
     return (
         <ImageBackground 
+            defaultSource={AlbumDefaultImage}
             source={{ uri: isEmpty(icons) ? undefined : icons[0].url }} 
             style={{
                 width: Math.floor(windowWidth / 2) - 15,
