@@ -17,6 +17,7 @@
     "@react-navigation/material-top-tabs": "^6.6.0",
     "@react-navigation/native": "^6.1.1",
     "@react-navigation/native-stack": "^6.9.7",
+    "@reduxjs/toolkit": "^1.9.3",
     "@tanstack/react-query": "^4.20.4",
     "axios": "^1.2.2",
     "expo": "~46.0.19",
@@ -39,6 +40,7 @@
     "react-native-svg": "12.3.0",
     "react-native-tab-view": "^3.5.0",
     "react-native-web": "~0.18.7",
+    "react-redux": "^8.0.5",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22"
   },
   "devDependencies": {
