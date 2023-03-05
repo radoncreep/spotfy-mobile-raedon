@@ -5,13 +5,12 @@ import * as SplashScreen from 'expo-splash-screen';
 import { NativeBaseProvider } from "native-base";
 import { NavigationContainer } from '@react-navigation/native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import { Provider as RRProvider } from "react-redux";
 
 import { appTheme } from './theme';
 import { AuthContextProvider } from './store/Auth.context';
 import { Root } from './navigation/Root';
 import { queryClient, QueryClientProvider } from './config/queryClient';
-import { appStore } from './store/store';
+import { useAppSelector } from './store/hooks';
 
 
 if(__DEV__) {
@@ -22,7 +21,7 @@ SplashScreen.preventAutoHideAsync();
 
 export default function App() {
   const [ ready, setReady ] = useState<boolean>(false);
-
+  useAppSelector((state) => console.log({ state }))
 
   useEffect(() => {
     async function load() {
@@ -50,13 +49,11 @@ export default function App() {
         <NativeBaseProvider theme={appTheme}>
           <View style={styles.container} onLayout={onLayoutRootView}>
             {/* if authenticated then navigate to bottom tab home screen else onboard */}
-            <AuthContextProvider>
+            {/* <AuthContextProvider> */}
               <QueryClientProvider client={queryClient}>
-                <RRProvider store={appStore}>
-                  <Root />
-                </RRProvider>
+                  <Root  />
               </QueryClientProvider>
-            </AuthContextProvider>
+            {/* </AuthContextProvider> */}
             <StatusBar style="light" />
           </View>
         </NativeBaseProvider>

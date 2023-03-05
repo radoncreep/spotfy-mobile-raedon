@@ -29,6 +29,8 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { OnboardStackParamList } from "../../../types/stackScreen.types";
 import { AuthContext } from "../../../store/Auth.context";
 import { mergeItemInCache, setItemInCache } from "../../../utils/cache";
+import { useAppDispatch } from "../../../store/hooks";
+import { login } from "../../../store/features/auth.slice";
 
 
 const ChooseArtistScreen = (
@@ -36,7 +38,8 @@ const ChooseArtistScreen = (
 ) => {
     const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
     const [isDone, setIsDone]= useState<boolean>(false);
-    const { dispatch } = useContext(AuthContext);
+    // const { dispatch } = useContext(AuthContext);
+    const dispatch = useAppDispatch();
  
     const { data, error, isLoading, refetch } = useQuery({ 
         queryKey: ['artists'], 
@@ -104,18 +107,17 @@ const ChooseArtistScreen = (
        let allRoutes = navigation.getState().routes;
        let routeCount = allRoutes.length;
        let previousRoute = allRoutes[routeCount - 2];
+       console.log(allRoutes.map((route) => route.name))
        
-       if (previousRoute.name === "OnboardScreen") {
-           dispatch({
-               type: 'login',
-               payload: {
-                   username: 'Victor',
-                   email: 'victor@mail.com',
-                   password: 'password',
-                   dob: '20-01-2023',
-                   gender: 'male'
-               }
-           })
+       const payload = {
+           username: 'Victor',
+           email: 'victor@mail.com',
+           password: 'password',
+           dob: '20-01-2023',
+           gender: 'male'
+       }
+       if (previousRoute && previousRoute.name === "OnboardScreen") {
+           dispatch(login(payload));
        } else {
         // dispatch with actual login state.
         console.log("dispatched from auth navigation")
