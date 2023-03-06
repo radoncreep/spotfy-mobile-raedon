@@ -48,12 +48,9 @@ export default function App() {
       <NavigationContainer>
         <NativeBaseProvider theme={appTheme}>
           <View style={styles.container} onLayout={onLayoutRootView}>
-            {/* if authenticated then navigate to bottom tab home screen else onboard */}
-            {/* <AuthContextProvider> */}
               <QueryClientProvider client={queryClient}>
                   <Root  />
               </QueryClientProvider>
-            {/* </AuthContextProvider> */}
             <StatusBar style="light" />
           </View>
         </NativeBaseProvider>

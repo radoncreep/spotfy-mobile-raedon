@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@gorhom/bottom-sheet": "^4",
     "@react-native-async-storage/async-storage": "~1.17.3",
     "@react-native-community/datetimepicker": "6.2.0",
     "@react-native-community/netinfo": "9.3.0",
@@ -40,8 +41,7 @@
     "react-native-svg": "12.3.0",
     "react-native-tab-view": "^3.5.0",
     "react-native-web": "~0.18.7",
-    "react-redux": "^8.0.5",
-    "reanimated-bottom-sheet": "^1.0.0-alpha.22"
+    "react-redux": "^8.0.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
