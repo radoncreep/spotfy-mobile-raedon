@@ -60,7 +60,7 @@ const GreatPicksModal = ({ pickedArtists, handleNavigation }: GreatPicksModalPro
                     (
                         <View 
                             style={{ 
-                                backgroundColor: 'red', 
+                                backgroundColor: '#121212', 
                                 flex: 1,
                                 justifyContent: 'center',
                                 alignItems: 'center',

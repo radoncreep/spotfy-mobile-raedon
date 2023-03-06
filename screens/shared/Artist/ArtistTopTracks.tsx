@@ -5,6 +5,8 @@ import { MaterialIcons, SimpleLineIcons } from '@expo/vector-icons';
 
 import { AppImage, ExplicitIcons } from "../../../components";
 import { TracksResponse } from "../../../types/tracks";
+import { useAppDispatch } from "../../../store/hooks";
+import { createPlaylist } from "../../../store/features/player.slice";
 
 
 interface ArtistTopTracksProps {
@@ -14,6 +16,7 @@ interface ArtistTopTracksProps {
 const ArtistTopTracks = ({ tracks }: ArtistTopTracksProps) => {
     const [favorites, setFavorites] = useState<string[]>([]);
     const [playing, setPlaying] = useState<string>("");
+    const dispatch = useAppDispatch();
 
     const handleSelectedAsFavourite = (id: string) => {
         setFavorites((prevState) => {
@@ -33,12 +36,18 @@ const ArtistTopTracks = ({ tracks }: ArtistTopTracksProps) => {
         setPlaying(trackId);
     }
 
+    const handleCreatePlaylist = (tracks: TracksResponse['tracks']) => {
+        // if the playlist isnt different avoiding dispatching
+        dispatch(createPlaylist(tracks));
+    }
+
     return (
         <View style={styles.container}>
             {tracks.map((track, index) => (
                 <Pressable 
                     onPress={() => {
                         handlePlayTrack(track.id)
+                        handleCreatePlaylist(tracks);
                     }}
                     key={track.id}
                 >

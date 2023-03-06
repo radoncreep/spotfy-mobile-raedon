@@ -15,11 +15,12 @@ const playerSlice = createSlice({
     name: "player",
     initialState,
     reducers: {
-        create: (state: PlayerState = initialState, action: PayloadAction<ITrack[]>): PlayerState => {
+        createPlaylist: (state: PlayerState = initialState, action: PayloadAction<ITrack[]>): PlayerState => {
+            console.log(action.payload)
             state.tracks = action.payload;
             return state;
         },
-        update: (state: PlayerState = initialState, action: PayloadAction<ITrack>): PlayerState => {
+        updatePlaylist: (state: PlayerState = initialState, action: PayloadAction<ITrack>): PlayerState => {
             const { payload } = action;
             const filterTracks = state.tracks.filter((track) => track.id === payload.id);
 
@@ -30,6 +31,6 @@ const playerSlice = createSlice({
     }
 })
 
-export const { create, update } = playerSlice.actions;
+export const { createPlaylist, updatePlaylist } = playerSlice.actions;
 
 export default playerSlice.reducer;

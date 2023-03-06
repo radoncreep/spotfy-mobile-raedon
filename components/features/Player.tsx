@@ -5,14 +5,17 @@ import { HStack, VStack } from 'native-base';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
 
 import DefaultTrackImage from "../../assets/images/albumDefaultImage.png";
-import { getArtistNameText } from '../../utils/helper';
+import { getArtistNameText, isEmpty } from '../../utils/helper';
 import { ArtistAsItem } from '../../types/artist';
 import { useImageColor } from '../../hooks/useImageColor';
+import { useAppSelector } from '../../store/hooks';
+import { ITrack } from '../../types/tracks';
 
 
-const MiniPlayer = ({ artistImage }: { artistImage: string }) => {
+const MiniPlayer = ({ track }: { track: ITrack }) => {
     const isPlaying = true;
     const artists = [{ name: "Drake" }, { name: "21 Savage" }] as unknown as ArtistAsItem;
+    const trackImages = track.album.images;
 
     return (
         <View
@@ -24,7 +27,7 @@ const MiniPlayer = ({ artistImage }: { artistImage: string }) => {
         >
             <Image 
                 defaultSource={DefaultTrackImage}
-                source={{ uri: artistImage }}
+                source={{ uri: !isEmpty(trackImages) ? trackImages[0].url : undefined }}
                 style={{
                     width: 50,
                     height: 55,
@@ -41,14 +44,17 @@ const MiniPlayer = ({ artistImage }: { artistImage: string }) => {
                         overflow: "hidden",
                         fontWeight: "600" 
                     }} 
-                    numberOfLines={1}>
-                    Headlineseprogrejgopejgpoerjgpoerjpgerjgpoejgpoejrgpojepogjerpjgegeoprjgpoerjgoperjg
+                    numberOfLines={1}
+                >
+                    {track.name}
                 </Text>
 
                 {/* ARTISTE AND FEATURES */}
-                <Text style={{ color: "#fff", fontSize: 14, fontWeight: "500", opacity: 0.8 }}>
-                    {/* {getArtistNameText(artists)} */}
-                    Drake, 21 Savage
+                <Text 
+                    style={{ color: "#fff", fontSize: 14, fontWeight: "500", opacity: 0.8 }}
+                    numberOfLines={1}
+                >
+                    {getArtistNameText(track.artists)}
                 </Text>
             </VStack>
 
@@ -66,35 +72,36 @@ const MiniPlayer = ({ artistImage }: { artistImage: string }) => {
 }
 
 export const Player = () => {
+    const tracks = useAppSelector((state) => state.player.tracks);
     const sheetRef = useRef<BottomSheet>(null);
     // const artistImage = "https://i.scdn.co/image/ab67616d00001e02f907de96b9a4fbc04accc0d5";
-    const artistImage = "https://i.scdn.co/image/ab67616d00001e022887f8c05b5a9f1cb105be29";
+
+    const currentTrack = tracks[0];
+    const artistImage = currentTrack.album.images[0].url;
     
 
     const colors = useImageColor(artistImage);
-    console.log({ colors })
+    // console.log({ colors })
 
-    const snapPoints = useMemo(() => ['20%', '50%'], []);
+    const snapPoints = useMemo(() => [20, 80], []);
 
     return (
-        // <View style={styles.container}>
-            <BottomSheet 
-                ref={sheetRef}
-                snapPoints={[20, 80]}
-                index={1}
-                detached={true}
-                bottomInset={90}
-                backgroundStyle={{
-                    borderRadius: 20,
-                }}
-                // handleHeight={100}
-                handleComponent={() => <></>}
-            >
-                <View style={[styles.contentContainer, { backgroundColor: colors.colorFour.value || "#515357" }]}>
-                    <MiniPlayer artistImage={artistImage} />
-                </View>
-            </BottomSheet>
-        // </View>
+        <BottomSheet 
+            ref={sheetRef}
+            snapPoints={snapPoints}
+            index={1}
+            detached={true}
+            bottomInset={90}
+            backgroundStyle={{
+                borderRadius: 20,
+            }}
+            // handleHeight={100}
+            handleComponent={() => <></>}
+        >
+            <View style={[styles.contentContainer, { backgroundColor: colors.colorFour.value || "#515357" }]}>
+                <MiniPlayer track={currentTrack} />
+            </View>
+        </BottomSheet>
     )
 }
 
