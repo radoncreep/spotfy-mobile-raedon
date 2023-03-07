@@ -6,6 +6,8 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { AppImage } from "../core/AppImage";
 import { HStack, VStack } from "native-base";
 import { getArtistNameText, millisToMinutesAndSeconds } from "../../utils/helper";
+import { AppFavouriteIcons } from "../core/AppFavourite";
+import { useState } from "react";
 
 interface IMaxPlayer {
     track: ITrack;
@@ -16,10 +18,14 @@ const screenWidth = Dimensions.get("screen").width;
 
 export const MaxPlayer = ({ track, handleSetSheetIndex }: IMaxPlayer) => {
     const insets = useSafeAreaInsets();
+    const [isFavorite, setIsFavorite] = useState(false);
+
+    const handleIsFavorite = () => setIsFavorite((prev) => !prev);
+
     console.log("track type ", track.type, track.album.album_type)
 
     return (
-        <ScrollView style={{ paddingTop: insets.top, paddingHorizontal: 16 }}>
+        <ScrollView style={{ paddingTop: insets.top + 10, paddingHorizontal: 16 }}>
             {/* HEADER */}
             <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
                 <Pressable onPress={() => handleSetSheetIndex(0)}>
@@ -65,9 +71,10 @@ export const MaxPlayer = ({ track, handleSetSheetIndex }: IMaxPlayer) => {
                     </Text>
                 </VStack>
 
-                <View>
-                    <MaterialIcons name="favorite-border" size={30} color="#fff" />
-                </View>
+                <AppFavouriteIcons 
+                    isFavorite={isFavorite}
+                    handleIsFavorite={handleIsFavorite}
+                />
             </View>
 
 

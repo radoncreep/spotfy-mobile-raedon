@@ -11,6 +11,7 @@ import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Dispatch, useEffect } from "react";
 import { useImageColor } from "../../../hooks/useImageColor";
 import { ColorState } from "../../../types/shared";
+import { isEmpty } from "../../../utils/helper";
 
 
 type Props = {
@@ -57,7 +58,8 @@ const ArtistSearchItem = ({ handleNavigation, item }: ItemProps) => {
 export const ArtistSearchFilterView = ({ artistData, handleColorSet }: Props) => {
     const navigation = useNavigation<NativeStackNavigationProp<SearchNavigationParamList>>();
     const topArtist = artistData[0];
-    const res = useImageColor(topArtist.images[0].url);
+    const topArtistImageUrl: string = !isEmpty(topArtist.images) ? topArtist.images[0].url : "";
+    const res = useImageColor(topArtistImageUrl);
 
     useEffect(() => {
         handleColorSet(res);

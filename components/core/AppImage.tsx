@@ -20,8 +20,8 @@ export const AppImage = ({ imageType, src, otherProps, dimensions}: AppImageProp
             source={{ uri: src }}
             defaultSource={imageType === "album" ? AlbumDefaultImage : ArtistDefaultImage}
             style={[{
-                width: 64,
-                height: 64
+                width: 54,
+                height: 54
             }, {...dimensions}]}
         />
     )
