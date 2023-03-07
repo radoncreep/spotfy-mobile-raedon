@@ -65,7 +65,7 @@ export const useImageColor = (uri: string) => {
         }
 
         return () => { mounted = false; }
-    }, [])
+    }, [uri])
 
     if (loading) {
         console.log("image color loading");

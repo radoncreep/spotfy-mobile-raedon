@@ -9,6 +9,8 @@ import { SubscriptionNavigation } from './subscription/SubscriptionNavigation';
 import { Octicons, Ionicons, Entypo } from '@expo/vector-icons';
 import { Player } from '../components';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useAppSelector } from '../store/hooks';
+import { isEmpty } from '../utils/helper';
 
 
 function renderIcons({ routeName, isFocused }: { routeName: string, isFocused: boolean }) {
@@ -31,10 +33,10 @@ function renderIcons({ routeName, isFocused }: { routeName: string, isFocused: b
 
 
 function CustomBottomTab({ descriptors, insets, navigation, state }: BottomTabBarProps) {
-    console.log("BOTTOM ", insets.bottom, insets.left, insets.right, insets.top)
+    const tracks = useAppSelector((state) => state.player.tracks);
     return (
         <>
-            <Player />
+            {!isEmpty(tracks) && <Player /> }
 
             <View 
                 style={[

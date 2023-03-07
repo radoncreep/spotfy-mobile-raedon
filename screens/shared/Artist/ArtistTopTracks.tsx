@@ -36,9 +36,13 @@ const ArtistTopTracks = ({ tracks }: ArtistTopTracksProps) => {
         setPlaying(trackId);
     }
 
-    const handleCreatePlaylist = (tracks: TracksResponse['tracks']) => {
+    const handleCreatePlaylist = (tracks: TracksResponse['tracks'], index: number) => {
         // if the playlist isnt different avoiding dispatching
-        dispatch(createPlaylist(tracks));
+        dispatch(createPlaylist({ 
+            tracks,
+            currentTrackIndex: index,
+            playlistType: tracks.length > 1 ? "album" : "single"
+        }));
     }
 
     return (
@@ -47,7 +51,7 @@ const ArtistTopTracks = ({ tracks }: ArtistTopTracksProps) => {
                 <Pressable 
                     onPress={() => {
                         handlePlayTrack(track.id)
-                        handleCreatePlaylist(tracks);
+                        handleCreatePlaylist(tracks, index);
                     }}
                     key={track.id}
                 >

@@ -14,7 +14,6 @@ import { ITrack } from '../../types/tracks';
 
 const MiniPlayer = ({ track }: { track: ITrack }) => {
     const isPlaying = true;
-    const artists = [{ name: "Drake" }, { name: "21 Savage" }] as unknown as ArtistAsItem;
     const trackImages = track.album.images;
 
     return (
@@ -72,15 +71,13 @@ const MiniPlayer = ({ track }: { track: ITrack }) => {
 }
 
 export const Player = () => {
-    const tracks = useAppSelector((state) => state.player.tracks);
-    const sheetRef = useRef<BottomSheet>(null);
-    // const artistImage = "https://i.scdn.co/image/ab67616d00001e02f907de96b9a4fbc04accc0d5";
-
-    const currentTrack = tracks[0];
+    const { currentTrackIndex, playlistType, tracks} = useAppSelector((state) => state.player);
+    const currentTrack = tracks[currentTrackIndex];
     const artistImage = currentTrack.album.images[0].url;
     
-
     const colors = useImageColor(artistImage);
+    const sheetRef = useRef<BottomSheet>(null);
+
     // console.log({ colors })
 
     const snapPoints = useMemo(() => [20, 80], []);
