@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { Dimensions, Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import BottomSheet from '@gorhom/bottom-sheet';
 import { HStack, VStack } from 'native-base';
 import { FontAwesome, MaterialIcons } from '@expo/vector-icons';
@@ -10,7 +10,11 @@ import { ArtistAsItem } from '../../types/artist';
 import { useImageColor } from '../../hooks/useImageColor';
 import { useAppSelector } from '../../store/hooks';
 import { ITrack } from '../../types/tracks';
+import { MaxPlayer } from './MaxPlayer';
 
+
+const screenHeight = Dimensions.get("screen").height;
+console.log({ screenHeight });
 
 const MiniPlayer = ({ track }: { track: ITrack }) => {
     const isPlaying = true;
@@ -76,44 +80,75 @@ export const Player = () => {
     const artistImage = currentTrack.album.images[0].url;
     
     const colors = useImageColor(artistImage);
+    console.log(Object.values(colors).map((val) => val.value));
+
     const sheetRef = useRef<BottomSheet>(null);
+    const [sheetIndex, setSheetIndex] = useState<number>(0);
+
+    console.log({ sheetIndex })
 
     // console.log({ colors })
+    const maxPoint = screenHeight - 100;
 
-    const snapPoints = useMemo(() => [20, 80], []);
+    const snapPoints = useMemo(() => [80, maxPoint], []);
+
+    useEffect(() => {
+        console.log("sheet ref changed")
+        sheetRef.current?.snapToIndex(sheetIndex);
+    }, [sheetIndex])
+
+    const handleSetSheetIndex = (index: number) => {
+        setSheetIndex(index);
+    }
 
     return (
         <BottomSheet 
             ref={sheetRef}
             snapPoints={snapPoints}
-            index={1}
+            index={0}
             detached={true}
             bottomInset={90}
             backgroundStyle={{
                 borderRadius: 20,
             }}
-            // handleHeight={100}
+            // handleHeight={}
             handleComponent={() => <></>}
+            onChange={handleSetSheetIndex}
         >
-            <View style={[styles.contentContainer, { backgroundColor: colors.colorFour.value || "#515357" }]}>
-                <MiniPlayer track={currentTrack} />
-            </View>
+            {sheetIndex === 0 && 
+                <Pressable 
+                    onPress={() => handleSetSheetIndex(1)}
+                    style={[styles.contentMini, { backgroundColor: colors.colorFour.value || "#515357" }]}
+                >
+                    <MiniPlayer track={currentTrack} />
+                </Pressable>
+            }  
+
+            {sheetIndex === 1 && 
+                <View style={[styles.contentMax, { 
+                    backgroundColor: colors.colorOne.value || "#515357", 
+                    // paddingTop: 
+                }]}>
+                    <MaxPlayer track={currentTrack} handleSetSheetIndex={handleSetSheetIndex} />
+                </View>
+            }
         </BottomSheet>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        // backgroundColor: "transparent",
-        // borderRadius: 14,
-        // overflow: "hidden",
+        flex: 1
     },
-    contentContainer: {
+    contentMax: {
         flex: 1,
-        justifyContent: "center",
+    },
+    contentMini: {
+        flex: 1,
+        justifyContent: "flex-start",
         paddingHorizontal: 10,
-        
+        paddingTop: 10,
+        alignItems: "center"
     },
     iconStyle: {
         fontSize: 32,
