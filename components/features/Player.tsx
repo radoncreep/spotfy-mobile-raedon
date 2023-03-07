@@ -18,6 +18,7 @@ export const Player = () => {
     } = useAppSelector((state) => state.player);
 
     const currentTrack = tracks[currentTrackIndex];
+    console.log(currentTrack)
     const artistImage = currentTrack.album.images[0].url;
     
     const colors = useImageColor(artistImage);

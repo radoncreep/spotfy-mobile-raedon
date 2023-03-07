@@ -8,6 +8,7 @@ import { HStack, VStack } from "native-base";
 import { getArtistNameText, millisToMinutesAndSeconds } from "../../utils/helper";
 import { AppFavouriteIcons } from "../core/AppFavourite";
 import { useState } from "react";
+import { PlayerControls } from "./PlayerControls";
 
 interface IMaxPlayer {
     track: ITrack;
@@ -89,6 +90,8 @@ export const MaxPlayer = ({ track, handleSetSheetIndex }: IMaxPlayer) => {
                     <Text style={styles.text}>-{millisToMinutesAndSeconds(track.duration_ms)}</Text>
                 </View>
             </VStack>
+
+            <PlayerControls />
 
             {/* DEVICES AND SHARE */}
 
