@@ -6,6 +6,8 @@ import { AntDesign, MaterialIcons } from '@expo/vector-icons';
 
 import { AppFormInputGroup, AppTouchableButton } from "../../components";
 import { OnboardStackParamList } from "../../types/stackScreen.types";
+import { useAppDispatch } from "../../store/hooks";
+import { login } from "../../store/features/auth.slice";
 
 
 type UsernameScreenProps = NativeStackScreenProps<OnboardStackParamList, 'Username'>;
@@ -14,10 +16,12 @@ export const UsernameScreen = ({ navigation, route }: UsernameScreenProps) => {
     const [ disabledButton, setDisabledButton ] = useState(true);
     const [ username, setUsername ] = useState<string>("");
     const [ checked, setChecked ] = useState(false);
+    const dispatch = useAppDispatch();
 
     const handlePress = () => {
-        // save user data to cache 
-        // navigation.
+        const loginValues = {...route.params, username};
+        dispatch(login(loginValues))
+        
         navigation.reset({
             index: 0,
             routes: [{ name: 'ChooseArtistScreen'}]
@@ -42,7 +46,7 @@ export const UsernameScreen = ({ navigation, route }: UsernameScreenProps) => {
         <ScrollView style={styles.container} keyboardShouldPersistTaps="handled">
             <AppFormInputGroup 
                 inputField="What's your name?"
-                onPress={handlePress}
+                onPress={() => {}}
                 label="This appears on your Spotify profile."
                 textInputProps={{
                     onChangeText: (text) => {

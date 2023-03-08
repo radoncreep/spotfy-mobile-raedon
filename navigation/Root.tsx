@@ -1,17 +1,23 @@
-import { useContext } from "react"
-import { AuthContext } from "../store/Auth.context"
+
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useAppSelector } from "../store/hooks"
 import { AuthenticatedNavigation } from "./Authenticated"
 import { OnboardStackNavigator } from "./Onboard"
 
 
 export const Root = () => {
-    const { state } = useContext(AuthContext);
+    const { email, username } = useAppSelector((state) => state.auth);
 
-    console.log({state});
+    console.log({ email, username })
 
     return (
         <>
-            { state === null ? <OnboardStackNavigator /> : <AuthenticatedNavigation /> }
+            { (!email || !username) ? 
+                <OnboardStackNavigator /> : 
+                <GestureHandlerRootView style={{ flex: 1 }}>
+                    <AuthenticatedNavigation /> 
+                </GestureHandlerRootView>
+            }
         </>
     )
 }

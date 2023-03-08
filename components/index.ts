@@ -10,7 +10,7 @@ export { AppError } from './core/AppError';
 export { HomeScreenHeader } from './features/HomeScreenHeader';
 export { LibraryScreenHeader } from './features/LibraryScreenHeader';
 export { AppRainMeter } from './features/AppRainMeter';
-
+export { Player } from './features/Player';
 
 // TEMPLATES
 export { default as AppScreenHeader} from './templates/ScreenHeader';

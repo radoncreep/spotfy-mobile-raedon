@@ -54,3 +54,11 @@ export const isEmpty = <T>(arg: T): boolean => {
     // other type checks here
     return true;
 }
+
+export const millisToMinutesAndSeconds = (millis: number) => {
+    let minutes = Math.floor(millis / 60000);
+    let seconds = ((millis % 60000) / 1000).toFixed(0);
+    let formatSeconds = (parseInt(seconds) < 10 ? '0' : '') + seconds
+
+    return minutes + ":" + formatSeconds;
+}

@@ -14,6 +14,7 @@ import { getArtist } from "../../../api/artist/ArtistsAPI";
 import { getAlbum } from "../../../api/album/albumAPI";
 import { AlbumPlaylist } from "../../../components";
 import { HomeNavigationParamList } from "../../../navigation/home/home.navigation.types";
+import { AppFavouriteIcons } from "../../../components/core/AppFavourite";
 
 
 
@@ -51,6 +52,8 @@ export const AlbumScreen = ({ navigation, route }:
         // cacheTime: 0,
         enabled: true
     })
+
+    const handleIsFavorite = () => setIsFavorite((prev) => !prev);
 
     return (
         <SafeAreaView 
@@ -122,21 +125,10 @@ export const AlbumScreen = ({ navigation, route }:
                         {/* Tracks controls */}
                         <View style={{ flexDirection: 'row', marginTop: 10, alignItems: 'center', justifyContent: 'space-between' }}>
                             <HStack space="1.5">
-                                <Pressable onPress={() => setIsFavorite((prev) => !prev)}>
-                                    {!isFavorite ? (
-                                        <MaterialIcons 
-                                            name="favorite-outline" 
-                                            size={24} 
-                                            style={styles.inactiveIcon} 
-                                        />
-                                    ): (
-                                        <MaterialIcons 
-                                            name="favorite" 
-                                            size={24} 
-                                            color='#57B65F'
-                                        />
-                                    )}
-                                </Pressable>
+                                <AppFavouriteIcons
+                                    isFavorite={isFavorite}
+                                    handleIsFavorite={handleIsFavorite}
+                                />
 
                                 <Pressable onPress={() => console.log("pressed options")}>
                                     <SimpleLineIcons name="options" size={22} style={styles.inactiveIcon} />
